@@ -22,4 +22,7 @@ id {letter}+
 "*" {return '*';}
 "/" {return '/';}
 
+[ \t\n\r]+  /* skip whitespace */
+.  { /* any other character */ }
+
 %%

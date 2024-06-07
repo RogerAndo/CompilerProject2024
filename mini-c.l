@@ -21,7 +21,8 @@ id {letter}+
 "-" {return '-';}
 "*" {return '*';}
 "/" {return '/';}
-
+"(" {return '(';}
+")" {return ')';}
 [ \t\n\r]+  /* skip whitespace */
 .  { /* any other character */ }
 

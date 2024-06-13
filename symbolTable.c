@@ -49,17 +49,19 @@ void deleteSymbol(const char* token, int value){
     Symbol* previous = NULL;
     Symbol* current = head;
 
+    //Loop untile element is found
     while(current != NULL && strcmp(current->token, token) != 0 && current->value != value){
         previous = current;
         current = current->next;
     }
 
+    //End of the list
     if(current == NULL){
         printf("Symbol not found!\n");
         return;
     }
 
-    if(previous == NULL){
+    if(previous == NULL){//No element in list
         head = current->next;
     }else{
         previous->next = current->next;

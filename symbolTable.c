@@ -173,7 +173,6 @@ void updateSymbol(const char *token, int type, int ival, float fval)
             symbol->value.fval = fval;
             printf("Symbol[Token: %s, Type: FLOAT, Value: %.2f] has been updated\n", token, fval);
         }
-        printf("Symbol[Token: %s] has been updated\n", token);
     }
     else
     {

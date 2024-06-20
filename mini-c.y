@@ -4,6 +4,8 @@
 #include <ctype.h>
 #include <stdio.h>
 #include "lex.yy.c"
+#include "parser-defs.h"
+#include "symbolTable.h"
 
 void yyerror(const char *s)
 {
@@ -14,15 +16,6 @@ void yyerror(const char *s)
 
 int yylex(void);
 
-typedef struct {
-    int is_int;
-    union {
-        int ival;
-        float fval;
-    } value;
-} YYSTYPE;
-
-#define YYSTYPE_IS_DECLARED 1
 %}
 
 %union {
@@ -32,12 +25,13 @@ typedef struct {
        YYSTYPE val;         //flag to indicate is_int
        }
 
-%token <ival>  int
-%token <fval>  float
+%token <ival>  INT
+%token <fval>  FLOAT
 %token <lexeme> ID
 %token UNARY_MINUS
 
 //Define precedence and associativity
+%right '='
 %right '+' '-'
 %left '*' '/'
 
@@ -59,9 +53,9 @@ line  : expr '\n'      {
       }
       | ID '=' expr '\n'{
                         if($3.is_int) {
-                              update_symbol(); //TODO w8 for andis implementation
+                              update_symbol($1, 1, $3.value.ival, 0.0);
                         } else {
-                              update_symbol();
+                              update_symbol($1, 0, 0, $3.value.fval);
                         }
                         printf("Assigned %s\n", $1);
       };
@@ -102,8 +96,8 @@ expr  : expr '+' expr  {
                         }
       }
       | '('expr')'     {$$ = $2;}
-      | int            {$$.is_int = 1; $$.value.ival = $1;}
-      | float          {$$.is_int = 0; $$.value.fval = $1;}
+      | INT            {$$.is_int = 1; $$.value.ival = $1;}
+      | FLOAT          {$$.is_int = 0; $$.value.fval = $1;}
       | '-' expr       %prec SIGN {
                         $$.is_int = $2.is_int; 
                         if ($2.is_int) {
@@ -131,4 +125,5 @@ expr  : expr '+' expr  {
 	
 int main(void)
 {
-  return yyparse();}
+      return yyparse();
+}

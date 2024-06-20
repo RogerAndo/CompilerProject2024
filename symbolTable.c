@@ -1,29 +1,9 @@
+#include "symbolTable.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #define TABLE_SIZE 100
-
-union Value
-{
-    int ival;
-    float fval;
-} Value;
-
-// Define the type enumeration
-enum Type
-{
-    INT,
-    FLOAT
-};
-
-typedef struct Symbol
-{
-    char token[100];
-    enum Type type;
-    union Value value;
-    struct Symbol *next;
-} Symbol;
 
 Symbol *symbol_table[TABLE_SIZE];
 
@@ -147,7 +127,7 @@ Symbol *lookup_symbol(const char *token)
     {
         if (strcmp(current->token, token) == 0)
         {
-            return &current;
+            return current;
         }
         current = current->next;
     }
@@ -180,21 +160,6 @@ void updateSymbol(const char *token, int type, int ival, float fval)
     }
 }
 
-/**
-***********Brauchts glabi nit?**********
-int getLenght()
-{
-    Symbol *current = head;
-    int count = 0;
-    while (current != NULL)
-    {
-        current = current->next;
-        count++;
-    }
-    return count;
-}
-*/
-
 unsigned int hash(const char *name)
 {
     unsigned int hash = 0;
@@ -203,22 +168,4 @@ unsigned int hash(const char *name)
         hash = (hash << 5) + *name++;
     }
     return hash % TABLE_SIZE;
-}
-
-int main()
-{
-
-    insertSymbol("Test", 1, 2, 0.0);
-    insertSymbol("Hello", 0, 0, 2.0);
-    insertSymbol("World", 1, 2344, 0.0);
-
-    displaySymbolTable();
-
-    deleteSymbol("Test");
-
-    updateSymbol("World", 1, 23, 5.0);
-
-    displaySymbolTable();
-
-    return 0;
 }

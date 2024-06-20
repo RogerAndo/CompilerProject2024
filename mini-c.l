@@ -1,6 +1,9 @@
 %option noyywrap
 %{
-#include <stlib.h>
+#include <stdlib.h>
+#include <string.h>
+#include "parser-defs.h"
+#include "mini-c.tab.h"
 %}
 
 digit  [0-9]
@@ -12,10 +15,9 @@ letter [a-zA-Z]
 id {letter}+
 %%
 
-{int} {yylval.value = atof(yytext); return int;}
-{float} {yylval.value = atof(yytext); return float;}
-
-{id} {yylval.lexeme = yytext; return id;}
+{int} {yylval.value.ival = atoi(yytext); return INT;}
+{float} {yylval.value.fval = atof(yytext); return FLOAT;}
+{id} {yylval.lexeme = strdup(yytext); return ID;}
 
 "+" {return '+';}
 "-" {return '-';}

@@ -129,16 +129,15 @@ enum yysymbol_kind_t
   YYSYMBOL_ASSIGN = 14,                    /* ASSIGN  */
   YYSYMBOL_UNARY_MINUS = 15,               /* UNARY_MINUS  */
   YYSYMBOL_SIGN = 16,                      /* SIGN  */
-  YYSYMBOL_17_ = 17,                       /* "="  */
-  YYSYMBOL_YYACCEPT = 18,                  /* $accept  */
-  YYSYMBOL_line = 19,                      /* line  */
-  YYSYMBOL_declarations = 20,              /* declarations  */
-  YYSYMBOL_declaration = 21,               /* declaration  */
-  YYSYMBOL_statements = 22,                /* statements  */
-  YYSYMBOL_statement = 23,                 /* statement  */
-  YYSYMBOL_expr_int = 24,                  /* expr_int  */
-  YYSYMBOL_expr_float = 25,                /* expr_float  */
-  YYSYMBOL_id = 26                         /* id  */
+  YYSYMBOL_YYACCEPT = 17,                  /* $accept  */
+  YYSYMBOL_line = 18,                      /* line  */
+  YYSYMBOL_declarations = 19,              /* declarations  */
+  YYSYMBOL_declaration = 20,               /* declaration  */
+  YYSYMBOL_statements = 21,                /* statements  */
+  YYSYMBOL_statement = 22,                 /* statement  */
+  YYSYMBOL_expr_int = 23,                  /* expr_int  */
+  YYSYMBOL_expr_float = 24,                /* expr_float  */
+  YYSYMBOL_id = 25                         /* id  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -469,7 +468,7 @@ union yyalloc
 #define YYLAST   77
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  18
+#define YYNTOKENS  17
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  9
 /* YYNRULES -- Number of rules.  */
@@ -478,7 +477,7 @@ union yyalloc
 #define YYNSTATES  51
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   272
+#define YYMAXUTOK   271
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -519,7 +518,7 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
-      15,    16,    17
+      15,    16
 };
 
 #if YYDEBUG
@@ -546,8 +545,8 @@ static const char *const yytname[] =
 {
   "\"end of file\"", "error", "\"invalid token\"", "INUM", "FNUM", "ID",
   "INT", "FLOAT", "PLUS", "MINUS", "MUL", "DIV", "LP", "RP", "ASSIGN",
-  "UNARY_MINUS", "SIGN", "\"=\"", "$accept", "line", "declarations",
-  "declaration", "statements", "statement", "expr_int", "expr_float", "id", YY_NULLPTR
+  "UNARY_MINUS", "SIGN", "$accept", "line", "declarations", "declaration",
+  "statements", "statement", "expr_int", "expr_float", "id", YY_NULLPTR
 };
 
 static const char *
@@ -572,7 +571,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 static const yytype_int8 yypact[] =
 {
       -5,     4,    12,    -5,    -3,    -3,    -5,     2,    -5,    -5,
-      -5,    -5,    -5,     2,     2,    -5,    62,    66,    -1,    -5,
+      -5,    -5,    -5,     2,     2,    -5,    62,    66,     9,    -5,
       -5,    -5,    47,    56,    37,    37,    37,    37,     8,     8,
        8,     8,     2,    -5,    -5,    37,    37,    11,    -5,    11,
       -5,    -5,     8,     8,    25,    -5,    25,    -5,    -5,    62,
@@ -610,8 +609,8 @@ static const yytype_int8 yydefgoto[] =
 static const yytype_int8 yytable[] =
 {
        9,    10,     8,    18,     3,    11,    12,     8,    17,    21,
-      21,    13,    12,     8,    14,    23,    32,    42,     4,     5,
-      43,    26,    27,     0,    45,    45,    45,    45,    21,    44,
+      21,    13,    12,     8,    14,    23,     0,    42,     4,     5,
+      43,    26,    27,    32,    45,    45,    45,    45,    21,    44,
       46,    47,    48,    50,    16,    30,    31,     0,    45,    45,
       11,    22,     8,     0,    23,     0,    35,     0,     0,    36,
        0,    37,    39,    40,    41,    24,    25,    26,    27,    49,
@@ -622,8 +621,8 @@ static const yytype_int8 yytable[] =
 static const yytype_int8 yycheck[] =
 {
        4,     5,     5,     7,     0,     3,     4,     5,     7,    13,
-      14,     9,     4,     5,    12,    14,    17,     9,     6,     7,
-      12,    10,    11,    -1,    28,    29,    30,    31,    32,    28,
+      14,     9,     4,     5,    12,    14,    -1,     9,     6,     7,
+      12,    10,    11,    14,    28,    29,    30,    31,    32,    28,
       29,    30,    31,    32,     7,    10,    11,    -1,    42,    43,
        3,    14,     5,    -1,    43,    -1,     9,    -1,    -1,    12,
       -1,    24,    25,    26,    27,     8,     9,    10,    11,    32,
@@ -635,20 +634,20 @@ static const yytype_int8 yycheck[] =
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,    19,    20,     0,     6,     7,    21,    22,     5,    26,
-      26,     3,     4,     9,    12,    23,    24,    25,    26,    24,
-      25,    26,    24,    25,     8,     9,    10,    11,     8,     9,
-      10,    11,    17,    13,    13,     9,    12,    24,    26,    24,
-      24,    24,     9,    12,    25,    26,    25,    25,    25,    24,
-      25
+       0,    18,    19,     0,     6,     7,    20,    21,     5,    25,
+      25,     3,     4,     9,    12,    22,    23,    24,    25,    23,
+      24,    25,    23,    24,     8,     9,    10,    11,     8,     9,
+      10,    11,    14,    13,    13,     9,    12,    23,    25,    23,
+      23,    23,     9,    12,    24,    25,    24,    24,    24,    23,
+      24
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    18,    19,    20,    20,    21,    21,    22,    22,    23,
-      23,    23,    23,    24,    24,    24,    24,    24,    24,    24,
-      24,    25,    25,    25,    25,    25,    25,    25,    25,    26
+       0,    17,    18,    19,    19,    20,    20,    21,    21,    22,
+      22,    22,    22,    23,    23,    23,    23,    23,    23,    23,
+      23,    24,    24,    24,    24,    24,    24,    24,    24,    25
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
@@ -1124,7 +1123,7 @@ yyreduce:
              {
             insertSymbol((yyvsp[0].lexeme), 1, 0, 0);
       }
-#line 1128 "mini-c.tab.c"
+#line 1127 "mini-c.tab.c"
     break;
 
   case 6: /* declaration: FLOAT id  */
@@ -1132,12 +1131,12 @@ yyreduce:
                  {
             insertSymbol((yyvsp[0].lexeme), 0, 0, 0);
       }
-#line 1136 "mini-c.tab.c"
+#line 1135 "mini-c.tab.c"
     break;
 
-  case 9: /* statement: id "=" expr_int  */
+  case 9: /* statement: id ASSIGN expr_int  */
 #line 65 "mini-c.y"
-                      {
+                         {
             Symbol *sym = lookup_symbol((yyvsp[-2].lexeme));
             if(sym) {
                   if (sym->type == 1) {
@@ -1149,12 +1148,12 @@ yyreduce:
                   yyerror("Undefined variable");
             }
       }
-#line 1153 "mini-c.tab.c"
+#line 1152 "mini-c.tab.c"
     break;
 
-  case 10: /* statement: id "=" expr_float  */
+  case 10: /* statement: id ASSIGN expr_float  */
 #line 77 "mini-c.y"
-                          {
+                             {
             Symbol *sym = lookup_symbol((yyvsp[-2].lexeme));
             if(sym) {
                   if (sym->type == 0) {
@@ -1166,7 +1165,7 @@ yyreduce:
                   yyerror("Undefined variable");
             }
       }
-#line 1170 "mini-c.tab.c"
+#line 1169 "mini-c.tab.c"
     break;
 
   case 11: /* statement: expr_int  */
@@ -1174,7 +1173,7 @@ yyreduce:
                  {
             printf("Result: %d\n", (yyvsp[0].ival));
       }
-#line 1178 "mini-c.tab.c"
+#line 1177 "mini-c.tab.c"
     break;
 
   case 12: /* statement: expr_float  */
@@ -1182,7 +1181,7 @@ yyreduce:
                    {
             printf("Result: %f\n", (yyvsp[0].fval));
       }
-#line 1186 "mini-c.tab.c"
+#line 1185 "mini-c.tab.c"
     break;
 
   case 13: /* expr_int: INUM  */
@@ -1190,7 +1189,7 @@ yyreduce:
            {
             (yyval.ival) = (yyvsp[0].ival);
       }
-#line 1194 "mini-c.tab.c"
+#line 1193 "mini-c.tab.c"
     break;
 
   case 14: /* expr_int: id  */
@@ -1209,7 +1208,7 @@ yyreduce:
                   (yyval.ival) = 0.0;
             }
       }
-#line 1213 "mini-c.tab.c"
+#line 1212 "mini-c.tab.c"
     break;
 
   case 15: /* expr_int: expr_int PLUS expr_int  */
@@ -1217,7 +1216,7 @@ yyreduce:
                                {
             (yyval.ival) = (yyvsp[-2].ival) + (yyvsp[0].ival);
       }
-#line 1221 "mini-c.tab.c"
+#line 1220 "mini-c.tab.c"
     break;
 
   case 16: /* expr_int: expr_int MINUS expr_int  */
@@ -1225,7 +1224,7 @@ yyreduce:
                                 {
             (yyval.ival) = (yyvsp[-2].ival) - (yyvsp[0].ival);
       }
-#line 1229 "mini-c.tab.c"
+#line 1228 "mini-c.tab.c"
     break;
 
   case 17: /* expr_int: expr_int MUL expr_int  */
@@ -1233,7 +1232,7 @@ yyreduce:
                               {
             (yyval.ival) = (yyvsp[-2].ival) * (yyvsp[0].ival);
       }
-#line 1237 "mini-c.tab.c"
+#line 1236 "mini-c.tab.c"
     break;
 
   case 18: /* expr_int: expr_int DIV expr_int  */
@@ -1241,7 +1240,7 @@ yyreduce:
                               {
             (yyval.ival) = (yyvsp[-2].ival) / (yyvsp[0].ival);
       }
-#line 1245 "mini-c.tab.c"
+#line 1244 "mini-c.tab.c"
     break;
 
   case 19: /* expr_int: LP expr_int RP  */
@@ -1249,7 +1248,7 @@ yyreduce:
                        {
             (yyval.ival) = (yyvsp[-1].ival);
       }
-#line 1253 "mini-c.tab.c"
+#line 1252 "mini-c.tab.c"
     break;
 
   case 20: /* expr_int: MINUS expr_int  */
@@ -1257,7 +1256,7 @@ yyreduce:
                                   {
             (yyval.ival) = -(yyvsp[0].ival);
       }
-#line 1261 "mini-c.tab.c"
+#line 1260 "mini-c.tab.c"
     break;
 
   case 21: /* expr_float: FNUM  */
@@ -1265,7 +1264,7 @@ yyreduce:
            {
             (yyval.fval) = (yyvsp[0].fval);
       }
-#line 1269 "mini-c.tab.c"
+#line 1268 "mini-c.tab.c"
     break;
 
   case 22: /* expr_float: id  */
@@ -1284,7 +1283,7 @@ yyreduce:
                   (yyval.fval) = 0;
             }
       }
-#line 1288 "mini-c.tab.c"
+#line 1287 "mini-c.tab.c"
     break;
 
   case 23: /* expr_float: expr_float PLUS expr_float  */
@@ -1292,7 +1291,7 @@ yyreduce:
                                    {
             (yyval.fval) = (yyvsp[-2].fval) + (yyvsp[0].fval);
       }
-#line 1296 "mini-c.tab.c"
+#line 1295 "mini-c.tab.c"
     break;
 
   case 24: /* expr_float: expr_float MINUS expr_float  */
@@ -1300,7 +1299,7 @@ yyreduce:
                                     {
             (yyval.fval) = (yyvsp[-2].fval) - (yyvsp[0].fval);
       }
-#line 1304 "mini-c.tab.c"
+#line 1303 "mini-c.tab.c"
     break;
 
   case 25: /* expr_float: expr_float MUL expr_float  */
@@ -1308,7 +1307,7 @@ yyreduce:
                                   {
             (yyval.fval) = (yyvsp[-2].fval) * (yyvsp[0].fval);
       }
-#line 1312 "mini-c.tab.c"
+#line 1311 "mini-c.tab.c"
     break;
 
   case 26: /* expr_float: expr_float DIV expr_float  */
@@ -1316,7 +1315,7 @@ yyreduce:
                                   {
             (yyval.fval) = (yyvsp[-2].fval) / (yyvsp[0].fval);
       }
-#line 1320 "mini-c.tab.c"
+#line 1319 "mini-c.tab.c"
     break;
 
   case 27: /* expr_float: LP expr_float RP  */
@@ -1324,7 +1323,7 @@ yyreduce:
                          {
             (yyval.fval) = (yyvsp[-1].fval);
       }
-#line 1328 "mini-c.tab.c"
+#line 1327 "mini-c.tab.c"
     break;
 
   case 28: /* expr_float: MINUS expr_float  */
@@ -1332,7 +1331,7 @@ yyreduce:
                                     {
             (yyval.fval) = -(yyvsp[0].fval);
       }
-#line 1336 "mini-c.tab.c"
+#line 1335 "mini-c.tab.c"
     break;
 
   case 29: /* id: ID  */
@@ -1340,11 +1339,11 @@ yyreduce:
          {
             (yyval.lexeme) = strdup((yyvsp[0].lexeme));
       }
-#line 1344 "mini-c.tab.c"
+#line 1343 "mini-c.tab.c"
     break;
 
 
-#line 1348 "mini-c.tab.c"
+#line 1347 "mini-c.tab.c"
 
       default: break;
     }

@@ -62,7 +62,7 @@ statements:
       | statements statement
       ;
 statement:
-      id "=" expr_int {
+      id ASSIGN expr_int {
             Symbol *sym = lookup_symbol($1);
             if(sym) {
                   if (sym->type == 1) {
@@ -74,7 +74,7 @@ statement:
                   yyerror("Undefined variable");
             }
       }
-      | id "=" expr_float {
+      | id ASSIGN expr_float {
             Symbol *sym = lookup_symbol($1);
             if(sym) {
                   if (sym->type == 0) {

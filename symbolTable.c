@@ -17,12 +17,12 @@ Symbol *createSymbol(const char *token, int type, union Value value)
     // newSymbol->value = value;
     if (type)
     {
-        newSymbol->type = INT;
+        newSymbol->type = 1;
         newSymbol->value.ival = value.ival;
     }
     else
     {
-        newSymbol->type = FLOAT;
+        newSymbol->type = 0;
         newSymbol->value.fval = value.fval;
     }
     newSymbol->next = NULL;
@@ -67,7 +67,7 @@ void displaySymbolTable()
 
         while (current != NULL)
         {
-            if (current->type == INT)
+            if (current->type == 1)
             {
                 printf("%d) Token: %s, Value: %d\n", ++count, current->token, current->value.ival);
             }
@@ -143,7 +143,7 @@ void updateSymbol(const char *token, int type, int ival, float fval)
         printf("Current type %d\n", symbol->type);
         symbol->type = type;
 
-        if (type == INT)
+        if (type == 1)
         {
             symbol->value.ival = ival;
             printf("Symbol[Token: %s, Type: INT, Value: %d] has been updated\n", token, ival);

@@ -9,16 +9,10 @@ typedef union Value
     float fval;
 } Value;
 
-typedef enum Type
-{
-    INT,
-    FLOAT
-} Type;
-
 typedef struct Symbol
 {
     char token[100];
-    Type type;
+    int type;
     Value value;
     struct Symbol *next;
 } Symbol;

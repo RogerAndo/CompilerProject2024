@@ -67,15 +67,13 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 21 "mini-c.y"
+#line 22 "mini-c.y"
 
-       char* lexeme;			//identifier
-       float fval;          //value of an identifier of type float
-       int ival;			//value of an identifier of type int
-       YYSTYPE val;         //flag to indicate is_int
-       
+    int ival;
+    float fval;
+    char *lexeme;
 
-#line 79 "mini-c.tab.h"
+#line 77 "mini-c.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

@@ -83,11 +83,12 @@ void yyerror(const char *s)
     exit(1);
 }
 
+extern YYSTYPE yylval;
 
 int yylex(void);
 
 
-#line 91 "mini-c.tab.c"
+#line 92 "mini-c.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -1097,114 +1098,114 @@ yyreduce:
   case 2: /* line: expr '\n'  */
 #line 46 "mini-c.y"
                        {
-                        if((yyvsp[-1].val).is_int) {
-                              printf("Result: %d\n", (yyvsp[-1].val).value.ival);
+                        if((yyvsp[-1].yystype).is_int) {
+                              printf("Result: %d\n", (yyvsp[-1].yystype).value.ival);
                         } else {
-                              printf("Result: %f\n", (yyvsp[-1].val).value.fval)
+                              printf("Result: %f\n", (yyvsp[-1].yystype).value.fval);
                         }
                         exit(0);
       }
-#line 1108 "mini-c.tab.c"
+#line 1109 "mini-c.tab.c"
     break;
 
   case 3: /* line: ID '=' expr '\n'  */
 #line 54 "mini-c.y"
                         {
-                        if((yyvsp[-1].val).is_int) {
-                              update_symbol((yyvsp[-3].lexeme), 1, (yyvsp[-1].val).value.ival, 0.0);
+                        if((yyvsp[-1].yystype).is_int) {
+                              update_symbol((yyvsp[-3].lexeme), 1, (yyvsp[-1].yystype).value.ival, 0.0);
                         } else {
-                              update_symbol((yyvsp[-3].lexeme), 0, 0, (yyvsp[-1].val).value.fval);
+                              update_symbol((yyvsp[-3].lexeme), 0, 0, (yyvsp[-1].yystype).value.fval);
                         }
                         printf("Assigned %s\n", (yyvsp[-3].lexeme));
       }
-#line 1121 "mini-c.tab.c"
+#line 1122 "mini-c.tab.c"
     break;
 
   case 4: /* expr: expr '+' expr  */
 #line 62 "mini-c.y"
                        {
-                        if((yyvsp[-2].val).is_int && (yyvsp[0].val).is_int) {
-                              (yyval.val).is_int = 1;
-                              (yyval.val).value.ival = (yyvsp[-2].val).value.ival + (yyvsp[0].val).value.ival;
+                        if((yyvsp[-2].yystype).is_int && (yyvsp[0].yystype).is_int) {
+                              (yyval.yystype).is_int = 1;
+                              (yyval.yystype).value.ival = (yyvsp[-2].yystype).value.ival + (yyvsp[0].yystype).value.ival;
                         } else {
-                              (yyval.val).is_int = 0;
-                              (yyval.val).value.fval = ((yyvsp[-2].val).is_int ? (yyvsp[-2].val).value.ival : (yyvsp[-2].val).value.fval) + ((yyvsp[0].val).is_int ? (yyvsp[0].val).value.ival : (yyvsp[0].val).value.fval); 
+                              (yyval.yystype).is_int = 0;
+                              (yyval.yystype).fval = ((yyvsp[-2].yystype).is_int ? (yyvsp[-2].yystype).value.ival : (yyvsp[-2].yystype).value.fval) + ((yyvsp[0].yystype).is_int ? (yyvsp[0].yystype).value.ival : (yyvsp[0].yystype).value.fval); 
                         }
       }
-#line 1135 "mini-c.tab.c"
+#line 1136 "mini-c.tab.c"
     break;
 
   case 5: /* expr: expr '-' expr  */
 #line 71 "mini-c.y"
                        {
-                        if((yyvsp[-2].val).is_int && (yyvsp[0].val).is_int) {
-                              (yyval.val).is_int = 1;
-                              (yyval.val).value.ival = (yyvsp[-2].val).value.ival - (yyvsp[0].val).value.ival;
+                        if((yyvsp[-2].yystype).is_int && (yyvsp[0].yystype).is_int) {
+                              (yyval.yystype).is_int = 1;
+                              (yyval.yystype).value.ival = (yyvsp[-2].yystype).value.ival - (yyvsp[0].yystype).value.ival;
                         } else {
-                              (yyval.val).is_int = 0;
-                              (yyval.val).value.fval = ((yyvsp[-2].val).is_int ? (yyvsp[-2].val).value.ival : (yyvsp[-2].val).value.fval) - ((yyvsp[0].val).is_int ? (yyvsp[0].val).value.ival : (yyvsp[0].val).value.fval); 
+                              (yyval.yystype).is_int = 0;
+                              (yyval.yystype).fval = ((yyvsp[-2].yystype).is_int ? (yyvsp[-2].yystype).value.ival : (yyvsp[-2].yystype).value.ival) - ((yyvsp[0].yystype).is_int ? (yyvsp[0].yystype).value.ival : (yyvsp[0].yystype).value.fval); 
                         }
       }
-#line 1149 "mini-c.tab.c"
+#line 1150 "mini-c.tab.c"
     break;
 
   case 6: /* expr: expr '*' expr  */
 #line 80 "mini-c.y"
                        {
-                        if((yyvsp[-2].val).is_int && (yyvsp[0].val).is_int) {
-                              (yyval.val).is_int = 1;
-                              (yyval.val).value.ival = (yyvsp[-2].val).value.ival * (yyvsp[0].val).value.ival;
+                        if((yyvsp[-2].yystype).is_int && (yyvsp[0].yystype).is_int) {
+                              (yyval.yystype).is_int = 1;
+                              (yyval.yystype).value.ival = (yyvsp[-2].yystype).value.ival * (yyvsp[0].yystype).value.ival;
                         } else {
-                              (yyval.val).is_int = 0;
-                              (yyval.val).value.fval = ((yyvsp[-2].val).is_int ? (yyvsp[-2].val).value.ival : (yyvsp[-2].val).value.fval) * ((yyvsp[0].val).is_int ? (yyvsp[0].val).value.ival : (yyvsp[0].val).value.fval); 
+                              (yyval.yystype).is_int = 0;
+                              (yyval.yystype).value.fval = ((yyvsp[-2].yystype).is_int ? (yyvsp[-2].yystype).value.ival : (yyvsp[-2].yystype).value.ival) * ((yyvsp[0].yystype).is_int ? (yyvsp[0].yystype).value.ival : (yyvsp[0].yystype).value.fval); 
                         }
       }
-#line 1163 "mini-c.tab.c"
+#line 1164 "mini-c.tab.c"
     break;
 
   case 7: /* expr: expr '/' expr  */
 #line 89 "mini-c.y"
                        {
-                        if((yyvsp[-2].val).is_int && (yyvsp[0].val).is_int) {
-                              (yyval.val).is_int = 1;
-                              (yyval.val).value.ival = (yyvsp[-2].val).value.ival / (yyvsp[0].val).value.ival;
+                        if((yyvsp[-2].yystype).is_int && (yyvsp[0].yystype).is_int) {
+                              (yyval.yystype).is_int = 1;
+                              (yyval.yystype).value.ival = (yyvsp[-2].yystype).value.ival / (yyvsp[0].yystype).value.ival;
                         } else {
-                              (yyval.val).is_int = 0;
-                              (yyval.val).value.fval = ((yyvsp[-2].val).is_int ? (yyvsp[-2].val).value.ival : (yyvsp[-2].val).value.fval) / ((yyvsp[0].val).is_int ? (yyvsp[0].val).value.ival : (yyvsp[0].val).value.fval); 
+                              (yyval.yystype).is_int = 0;
+                              (yyval.yystype).value.fval = ((yyvsp[-2].yystype).is_int ? (yyvsp[-2].yystype).value.ival : (yyvsp[-2].yystype).value.ival) / ((yyvsp[0].yystype).is_int ? (yyvsp[0].yystype).value.ival : (yyvsp[0].yystype).value.fval); 
                         }
       }
-#line 1177 "mini-c.tab.c"
+#line 1178 "mini-c.tab.c"
     break;
 
   case 8: /* expr: '(' expr ')'  */
 #line 98 "mini-c.y"
-                       {(yyval.val) = (yyvsp[-1].val);}
-#line 1183 "mini-c.tab.c"
+                       {(yyval.yystype) = (yyvsp[-1].yystype);}
+#line 1184 "mini-c.tab.c"
     break;
 
   case 9: /* expr: INT  */
 #line 99 "mini-c.y"
-                       {(yyval.val).is_int = 1; (yyval.val).value.ival = (yyvsp[0].ival);}
-#line 1189 "mini-c.tab.c"
+                       {(yyval.yystype).is_int = 1; (yyval.yystype).value.ival = (yyvsp[0].ival);}
+#line 1190 "mini-c.tab.c"
     break;
 
   case 10: /* expr: FLOAT  */
 #line 100 "mini-c.y"
-                       {(yyval.val).is_int = 0; (yyval.val).value.fval = (yyvsp[0].fval);}
-#line 1195 "mini-c.tab.c"
+                       {(yyval.yystype).is_int = 0; (yyval.yystype).value.fval = (yyvsp[0].fval);}
+#line 1196 "mini-c.tab.c"
     break;
 
   case 11: /* expr: '-' expr  */
 #line 101 "mini-c.y"
                                   {
-                        (yyval.val).is_int = (yyvsp[0].val).is_int; 
-                        if ((yyvsp[0].val).is_int) {
-                              (yyval.val).value.ival = -(yyvsp[0].val).value.ival;
+                        (yyval.yystype).is_int = (yyvsp[0].yystype).is_int; 
+                        if ((yyvsp[0].yystype).is_int) {
+                              (yyval.yystype).value.ival = -(yyvsp[0].yystype).value.ival;
                         } else {
-                              (yyval.val).value.fval = -(yyvsp[0].val).value.fval;
+                              (yyval.yystype).value.fval = -(yyvsp[0].yystype).value.fval;
                         }
       }
-#line 1208 "mini-c.tab.c"
+#line 1209 "mini-c.tab.c"
     break;
 
   case 12: /* expr: ID  */
@@ -1214,18 +1215,18 @@ yyreduce:
                         if(symbol == NULL) {
                               yyerror("Undefined variable");
                         }
-                        (yyval.val).is_int = (symbol->type == INT);
-                        if (symbol->type == INT) {
-                              (yyval.val).value.ival = symbol->value.ival;
+                        (yyval.yystype).is_int = (symbol->type == 1);
+                        if (symbol->type == 1) {
+                              (yyval.yystype).value.ival = symbol->value.ival;
                         } else {
-                              (yyval.val).value.fval = symbol->.fval;
+                              (yyval.yystype).fval = symbol->value.fval;
                         }
       }
-#line 1225 "mini-c.tab.c"
+#line 1226 "mini-c.tab.c"
     break;
 
 
-#line 1229 "mini-c.tab.c"
+#line 1230 "mini-c.tab.c"
 
       default: break;
     }

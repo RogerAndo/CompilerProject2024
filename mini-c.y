@@ -13,17 +13,17 @@ void yyerror(const char *s)
     exit(1);
 }
 
+extern YYSTYPE yylval;
 
 int yylex(void);
 
 %}
 
 %union {
-       char* lexeme;			//identifier
-       float fval;          //value of an identifier of type float
-       int ival;			//value of an identifier of type int
-       YYSTYPE val;         //flag to indicate is_int
-       }
+    int ival;
+    float fval;
+    char *lexeme;
+}
 
 %token <ival>  INT
 %token <fval>  FLOAT
@@ -37,8 +37,8 @@ int yylex(void);
 
 %nonassoc SIGN
 
-%type <val> expr
-%type <val> line
+%type <yystype> expr
+%type <yystype> line
 
 %start line
 
@@ -47,7 +47,7 @@ line  : expr '\n'      {
                         if($1.is_int) {
                               printf("Result: %d\n", $1.value.ival);
                         } else {
-                              printf("Result: %f\n", $1.value.fval)
+                              printf("Result: %f\n", $1.value.fval);
                         }
                         exit(0);
       }
@@ -65,7 +65,7 @@ expr  : expr '+' expr  {
                               $$.value.ival = $1.value.ival + $3.value.ival;
                         } else {
                               $$.is_int = 0;
-                              $$.value.fval = ($1.is_int ? $1.value.ival : $1.value.fval) + ($3.is_int ? $3.value.ival : $3.value.fval); 
+                              $$.fval = ($1.is_int ? $1.value.ival : $1.value.fval) + ($3.is_int ? $3.value.ival : $3.value.fval); 
                         }
       }
       | expr '-' expr  {
@@ -74,7 +74,7 @@ expr  : expr '+' expr  {
                               $$.value.ival = $1.value.ival - $3.value.ival;
                         } else {
                               $$.is_int = 0;
-                              $$.value.fval = ($1.is_int ? $1.value.ival : $1.value.fval) - ($3.is_int ? $3.value.ival : $3.value.fval); 
+                              $$.fval = ($1.is_int ? $1.value.ival : $1.value.ival) - ($3.is_int ? $3.value.ival : $3.value.fval); 
                         }
       }
       | expr '*' expr  {
@@ -83,7 +83,7 @@ expr  : expr '+' expr  {
                               $$.value.ival = $1.value.ival * $3.value.ival;
                         } else {
                               $$.is_int = 0;
-                              $$.value.fval = ($1.is_int ? $1.value.ival : $1.value.fval) * ($3.is_int ? $3.value.ival : $3.value.fval); 
+                              $$.value.fval = ($1.is_int ? $1.value.ival : $1.value.ival) * ($3.is_int ? $3.value.ival : $3.value.fval); 
                         }
       }
       | expr '/' expr  {
@@ -92,7 +92,7 @@ expr  : expr '+' expr  {
                               $$.value.ival = $1.value.ival / $3.value.ival;
                         } else {
                               $$.is_int = 0;
-                              $$.value.fval = ($1.is_int ? $1.value.ival : $1.value.fval) / ($3.is_int ? $3.value.ival : $3.value.fval); 
+                              $$.value.fval = ($1.is_int ? $1.value.ival : $1.value.ival) / ($3.is_int ? $3.value.ival : $3.value.fval); 
                         }
       }
       | '('expr')'     {$$ = $2;}
@@ -111,11 +111,11 @@ expr  : expr '+' expr  {
                         if(symbol == NULL) {
                               yyerror("Undefined variable");
                         }
-                        $$.is_int = (symbol->type == INT);
-                        if (symbol->type == INT) {
+                        $$.is_int = (symbol->type == 1);
+                        if (symbol->type == 1) {
                               $$.value.ival = symbol->value.ival;
                         } else {
-                              $$.value.fval = symbol->.fval;
+                              $$.fval = symbol->value.fval;
                         }
       }
       ;

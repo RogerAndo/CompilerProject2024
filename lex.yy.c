@@ -384,8 +384,8 @@ struct yy_trans_info
 	};
 static const flex_int16_t yy_accept[30] =
     {   0,
-        0,    0,   16,   14,   13,   13,   11,   12,    8,    6,
-        7,    9,    3,   10,    5,    5,    5,   13,    0,    3,
+        0,    0,   16,   14,   13,   13,   11,   12,    9,    7,
+        8,   10,    3,    6,    5,    5,    5,   13,    0,    3,
         5,    5,    5,    4,    5,    1,    5,    2,    0
     } ;
 
@@ -808,27 +808,27 @@ YY_RULE_SETUP
 case 6:
 YY_RULE_SETUP
 #line 20 "mini-c.l"
-{return PLUS;}
+{return ASSIGN;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
 #line 21 "mini-c.l"
-{return MINUS;}
+{return PLUS;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
 #line 22 "mini-c.l"
-{return MUL;}
+{return MINUS;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
 #line 23 "mini-c.l"
-{return DIV;}
+{return MUL;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
 #line 24 "mini-c.l"
-{return ASSIGN;}
+{return DIV;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP

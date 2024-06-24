@@ -17,11 +17,11 @@ id {letter}+
 {digit}+(\.{digit}+) {yylval.fval = atof(yytext); return FNUM;}
 {id} {yylval.lexeme = strdup(yytext); return ID;}
 
+"=" {return ASSIGN;}
 "+" {return PLUS;}
 "-" {return MINUS;}
 "*" {return MUL;}
 "/" {return DIV;}
-"=" {return ASSIGN;}
 "(" {return LP;}
 ")" {return RP;}
 [ \t\n\r]+  /* skip whitespace */

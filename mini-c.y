@@ -30,8 +30,8 @@ int yylex(void);
 %token UNARY_MINUS
 
 //Define precedence and associativity
-%right PLUS MINUS
-%left ASSIGN
+%right ASSIGN
+%left PLUS MINUS
 %left MUL DIV
 %nonassoc SIGN
 
@@ -126,6 +126,9 @@ expr_int:
       | LP expr_int RP {
             $$ = $2;
       }
+      | MINUS expr_int %prec SIGN {
+            $$ = -$2;
+      }
       ;
 expr_float:
       FNUM {
@@ -159,6 +162,9 @@ expr_float:
       }
       | LP expr_float RP {
             $$ = $2;
+      }
+      | MINUS expr_float %prec SIGN {
+            $$ = -$2;
       }
       ;
 id:

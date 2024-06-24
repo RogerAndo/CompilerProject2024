@@ -1,0 +1,660 @@
+Terminale, die in Grammatik unbenutzt sind
+
+    ASSIGN
+    UNARY_MINUS
+    SIGN
+
+
+Zustand 17 Konflikte: 9 Reduziere/Reduziere
+Zustand 20 Konflikte: 10 Reduziere/Reduziere
+
+
+Grammatik
+
+    0 $accept: line $end
+
+    1 line: declarations statements
+
+    2 declarations: ε
+    3             | declarations declaration
+
+    4 declaration: INT id
+    5            | FLOAT id
+
+    6 statements: ε
+    7           | statements statement
+
+    8 statement: id "=" expr_int
+    9          | id "=" expr_float
+   10          | expr_int
+   11          | expr_float
+
+   12 expr_int: INUM
+   13         | id
+   14         | expr_int PLUS expr_int
+   15         | expr_int MINUS expr_int
+   16         | expr_int MUL expr_int
+   17         | expr_int DIV expr_int
+   18         | LP expr_int RP
+
+   19 expr_float: FNUM
+   20           | id
+   21           | expr_float PLUS expr_float
+   22           | expr_float MINUS expr_float
+   23           | expr_float MUL expr_float
+   24           | expr_float DIV expr_float
+   25           | LP expr_float RP
+
+   26 id: ID
+
+
+Terminale und die Regeln, in denen sie verwendet werden
+
+    $end (0) 0
+    error (256)
+    INUM <ival> (258) 12
+    FNUM <fval> (259) 19
+    ID <lexeme> (260) 26
+    INT (261) 4
+    FLOAT (262) 5
+    PLUS (263) 14 21
+    MINUS (264) 15 22
+    MUL (265) 16 23
+    DIV (266) 17 24
+    LP (267) 18 25
+    RP (268) 18 25
+    ASSIGN (269)
+    UNARY_MINUS (270)
+    SIGN (271)
+    "=" (272) 8 9
+
+
+Nicht-Terminal und die Regeln, in denen sie verwendet werden
+
+    $accept (18)
+        auf der linken Seite: 0
+    line (19)
+        auf der linken Seite: 1
+        auf der rechten Seite: 0
+    declarations (20)
+        auf der linken Seite: 2 3
+        auf der rechten Seite: 1 3
+    declaration (21)
+        auf der linken Seite: 4 5
+        auf der rechten Seite: 3
+    statements (22)
+        auf der linken Seite: 6 7
+        auf der rechten Seite: 1 7
+    statement (23)
+        auf der linken Seite: 8 9 10 11
+        auf der rechten Seite: 7
+    expr_int <ival> (24)
+        auf der linken Seite: 12 13 14 15 16 17 18
+        auf der rechten Seite: 8 10 14 15 16 17 18
+    expr_float <fval> (25)
+        auf der linken Seite: 19 20 21 22 23 24 25
+        auf der rechten Seite: 9 11 21 22 23 24 25
+    id <lexeme> (26)
+        auf der linken Seite: 26
+        auf der rechten Seite: 4 5 8 9 13 20
+
+
+Zustand 0
+
+    0 $accept: • line $end
+
+    $default  reduziere mit Regel 2 (declarations)
+
+    line          gehe zu Zustand 1 über
+    declarations  gehe zu Zustand 2 über
+
+
+Zustand 1
+
+    0 $accept: line • $end
+
+    $end  schiebe und gehe zu Zustand 3 über
+
+
+Zustand 2
+
+    1 line: declarations • statements
+    3 declarations: declarations • declaration
+
+    INT    schiebe und gehe zu Zustand 4 über
+    FLOAT  schiebe und gehe zu Zustand 5 über
+
+    $default  reduziere mit Regel 6 (statements)
+
+    declaration  gehe zu Zustand 6 über
+    statements   gehe zu Zustand 7 über
+
+
+Zustand 3
+
+    0 $accept: line $end •
+
+    $default  annehmen
+
+
+Zustand 4
+
+    4 declaration: INT • id
+
+    ID  schiebe und gehe zu Zustand 8 über
+
+    id  gehe zu Zustand 9 über
+
+
+Zustand 5
+
+    5 declaration: FLOAT • id
+
+    ID  schiebe und gehe zu Zustand 8 über
+
+    id  gehe zu Zustand 10 über
+
+
+Zustand 6
+
+    3 declarations: declarations declaration •
+
+    $default  reduziere mit Regel 3 (declarations)
+
+
+Zustand 7
+
+    1 line: declarations statements •
+    7 statements: statements • statement
+
+    INUM  schiebe und gehe zu Zustand 11 über
+    FNUM  schiebe und gehe zu Zustand 12 über
+    ID    schiebe und gehe zu Zustand 8 über
+    LP    schiebe und gehe zu Zustand 13 über
+
+    $default  reduziere mit Regel 1 (line)
+
+    statement   gehe zu Zustand 14 über
+    expr_int    gehe zu Zustand 15 über
+    expr_float  gehe zu Zustand 16 über
+    id          gehe zu Zustand 17 über
+
+
+Zustand 8
+
+   26 id: ID •
+
+    $default  reduziere mit Regel 26 (id)
+
+
+Zustand 9
+
+    4 declaration: INT id •
+
+    $default  reduziere mit Regel 4 (declaration)
+
+
+Zustand 10
+
+    5 declaration: FLOAT id •
+
+    $default  reduziere mit Regel 5 (declaration)
+
+
+Zustand 11
+
+   12 expr_int: INUM •
+
+    $default  reduziere mit Regel 12 (expr_int)
+
+
+Zustand 12
+
+   19 expr_float: FNUM •
+
+    $default  reduziere mit Regel 19 (expr_float)
+
+
+Zustand 13
+
+   18 expr_int: LP • expr_int RP
+   25 expr_float: LP • expr_float RP
+
+    INUM  schiebe und gehe zu Zustand 11 über
+    FNUM  schiebe und gehe zu Zustand 12 über
+    ID    schiebe und gehe zu Zustand 8 über
+    LP    schiebe und gehe zu Zustand 13 über
+
+    expr_int    gehe zu Zustand 18 über
+    expr_float  gehe zu Zustand 19 über
+    id          gehe zu Zustand 20 über
+
+
+Zustand 14
+
+    7 statements: statements statement •
+
+    $default  reduziere mit Regel 7 (statements)
+
+
+Zustand 15
+
+   10 statement: expr_int •
+   14 expr_int: expr_int • PLUS expr_int
+   15         | expr_int • MINUS expr_int
+   16         | expr_int • MUL expr_int
+   17         | expr_int • DIV expr_int
+
+    PLUS   schiebe und gehe zu Zustand 21 über
+    MINUS  schiebe und gehe zu Zustand 22 über
+    MUL    schiebe und gehe zu Zustand 23 über
+    DIV    schiebe und gehe zu Zustand 24 über
+
+    $default  reduziere mit Regel 10 (statement)
+
+
+Zustand 16
+
+   11 statement: expr_float •
+   21 expr_float: expr_float • PLUS expr_float
+   22           | expr_float • MINUS expr_float
+   23           | expr_float • MUL expr_float
+   24           | expr_float • DIV expr_float
+
+    PLUS   schiebe und gehe zu Zustand 25 über
+    MINUS  schiebe und gehe zu Zustand 26 über
+    MUL    schiebe und gehe zu Zustand 27 über
+    DIV    schiebe und gehe zu Zustand 28 über
+
+    $default  reduziere mit Regel 11 (statement)
+
+
+Zustand 17
+
+    8 statement: id • "=" expr_int
+    9          | id • "=" expr_float
+   13 expr_int: id •
+   20 expr_float: id •
+
+    "="  schiebe und gehe zu Zustand 29 über
+
+    $end      reduziere mit Regel 13 (expr_int)
+    $end      [reduziere mit Regel 20 (expr_float)]
+    INUM      reduziere mit Regel 13 (expr_int)
+    INUM      [reduziere mit Regel 20 (expr_float)]
+    FNUM      reduziere mit Regel 13 (expr_int)
+    FNUM      [reduziere mit Regel 20 (expr_float)]
+    ID        reduziere mit Regel 13 (expr_int)
+    ID        [reduziere mit Regel 20 (expr_float)]
+    PLUS      reduziere mit Regel 13 (expr_int)
+    PLUS      [reduziere mit Regel 20 (expr_float)]
+    MINUS     reduziere mit Regel 13 (expr_int)
+    MINUS     [reduziere mit Regel 20 (expr_float)]
+    MUL       reduziere mit Regel 13 (expr_int)
+    MUL       [reduziere mit Regel 20 (expr_float)]
+    DIV       reduziere mit Regel 13 (expr_int)
+    DIV       [reduziere mit Regel 20 (expr_float)]
+    LP        reduziere mit Regel 13 (expr_int)
+    LP        [reduziere mit Regel 20 (expr_float)]
+    $default  reduziere mit Regel 13 (expr_int)
+
+
+Zustand 18
+
+   14 expr_int: expr_int • PLUS expr_int
+   15         | expr_int • MINUS expr_int
+   16         | expr_int • MUL expr_int
+   17         | expr_int • DIV expr_int
+   18         | LP expr_int • RP
+
+    PLUS   schiebe und gehe zu Zustand 21 über
+    MINUS  schiebe und gehe zu Zustand 22 über
+    MUL    schiebe und gehe zu Zustand 23 über
+    DIV    schiebe und gehe zu Zustand 24 über
+    RP     schiebe und gehe zu Zustand 30 über
+
+
+Zustand 19
+
+   21 expr_float: expr_float • PLUS expr_float
+   22           | expr_float • MINUS expr_float
+   23           | expr_float • MUL expr_float
+   24           | expr_float • DIV expr_float
+   25           | LP expr_float • RP
+
+    PLUS   schiebe und gehe zu Zustand 25 über
+    MINUS  schiebe und gehe zu Zustand 26 über
+    MUL    schiebe und gehe zu Zustand 27 über
+    DIV    schiebe und gehe zu Zustand 28 über
+    RP     schiebe und gehe zu Zustand 31 über
+
+
+Zustand 20
+
+   13 expr_int: id •
+   20 expr_float: id •
+
+    $end      reduziere mit Regel 13 (expr_int)
+    $end      [reduziere mit Regel 20 (expr_float)]
+    INUM      reduziere mit Regel 13 (expr_int)
+    INUM      [reduziere mit Regel 20 (expr_float)]
+    FNUM      reduziere mit Regel 13 (expr_int)
+    FNUM      [reduziere mit Regel 20 (expr_float)]
+    ID        reduziere mit Regel 13 (expr_int)
+    ID        [reduziere mit Regel 20 (expr_float)]
+    PLUS      reduziere mit Regel 13 (expr_int)
+    PLUS      [reduziere mit Regel 20 (expr_float)]
+    MINUS     reduziere mit Regel 13 (expr_int)
+    MINUS     [reduziere mit Regel 20 (expr_float)]
+    MUL       reduziere mit Regel 13 (expr_int)
+    MUL       [reduziere mit Regel 20 (expr_float)]
+    DIV       reduziere mit Regel 13 (expr_int)
+    DIV       [reduziere mit Regel 20 (expr_float)]
+    LP        reduziere mit Regel 13 (expr_int)
+    LP        [reduziere mit Regel 20 (expr_float)]
+    RP        reduziere mit Regel 13 (expr_int)
+    RP        [reduziere mit Regel 20 (expr_float)]
+    $default  reduziere mit Regel 13 (expr_int)
+
+
+Zustand 21
+
+   14 expr_int: expr_int PLUS • expr_int
+
+    INUM  schiebe und gehe zu Zustand 11 über
+    ID    schiebe und gehe zu Zustand 8 über
+    LP    schiebe und gehe zu Zustand 32 über
+
+    expr_int  gehe zu Zustand 33 über
+    id        gehe zu Zustand 34 über
+
+
+Zustand 22
+
+   15 expr_int: expr_int MINUS • expr_int
+
+    INUM  schiebe und gehe zu Zustand 11 über
+    ID    schiebe und gehe zu Zustand 8 über
+    LP    schiebe und gehe zu Zustand 32 über
+
+    expr_int  gehe zu Zustand 35 über
+    id        gehe zu Zustand 34 über
+
+
+Zustand 23
+
+   16 expr_int: expr_int MUL • expr_int
+
+    INUM  schiebe und gehe zu Zustand 11 über
+    ID    schiebe und gehe zu Zustand 8 über
+    LP    schiebe und gehe zu Zustand 32 über
+
+    expr_int  gehe zu Zustand 36 über
+    id        gehe zu Zustand 34 über
+
+
+Zustand 24
+
+   17 expr_int: expr_int DIV • expr_int
+
+    INUM  schiebe und gehe zu Zustand 11 über
+    ID    schiebe und gehe zu Zustand 8 über
+    LP    schiebe und gehe zu Zustand 32 über
+
+    expr_int  gehe zu Zustand 37 über
+    id        gehe zu Zustand 34 über
+
+
+Zustand 25
+
+   21 expr_float: expr_float PLUS • expr_float
+
+    FNUM  schiebe und gehe zu Zustand 12 über
+    ID    schiebe und gehe zu Zustand 8 über
+    LP    schiebe und gehe zu Zustand 38 über
+
+    expr_float  gehe zu Zustand 39 über
+    id          gehe zu Zustand 40 über
+
+
+Zustand 26
+
+   22 expr_float: expr_float MINUS • expr_float
+
+    FNUM  schiebe und gehe zu Zustand 12 über
+    ID    schiebe und gehe zu Zustand 8 über
+    LP    schiebe und gehe zu Zustand 38 über
+
+    expr_float  gehe zu Zustand 41 über
+    id          gehe zu Zustand 40 über
+
+
+Zustand 27
+
+   23 expr_float: expr_float MUL • expr_float
+
+    FNUM  schiebe und gehe zu Zustand 12 über
+    ID    schiebe und gehe zu Zustand 8 über
+    LP    schiebe und gehe zu Zustand 38 über
+
+    expr_float  gehe zu Zustand 42 über
+    id          gehe zu Zustand 40 über
+
+
+Zustand 28
+
+   24 expr_float: expr_float DIV • expr_float
+
+    FNUM  schiebe und gehe zu Zustand 12 über
+    ID    schiebe und gehe zu Zustand 8 über
+    LP    schiebe und gehe zu Zustand 38 über
+
+    expr_float  gehe zu Zustand 43 über
+    id          gehe zu Zustand 40 über
+
+
+Zustand 29
+
+    8 statement: id "=" • expr_int
+    9          | id "=" • expr_float
+
+    INUM  schiebe und gehe zu Zustand 11 über
+    FNUM  schiebe und gehe zu Zustand 12 über
+    ID    schiebe und gehe zu Zustand 8 über
+    LP    schiebe und gehe zu Zustand 13 über
+
+    expr_int    gehe zu Zustand 44 über
+    expr_float  gehe zu Zustand 45 über
+    id          gehe zu Zustand 20 über
+
+
+Zustand 30
+
+   18 expr_int: LP expr_int RP •
+
+    $default  reduziere mit Regel 18 (expr_int)
+
+
+Zustand 31
+
+   25 expr_float: LP expr_float RP •
+
+    $default  reduziere mit Regel 25 (expr_float)
+
+
+Zustand 32
+
+   18 expr_int: LP • expr_int RP
+
+    INUM  schiebe und gehe zu Zustand 11 über
+    ID    schiebe und gehe zu Zustand 8 über
+    LP    schiebe und gehe zu Zustand 32 über
+
+    expr_int  gehe zu Zustand 18 über
+    id        gehe zu Zustand 34 über
+
+
+Zustand 33
+
+   14 expr_int: expr_int • PLUS expr_int
+   14         | expr_int PLUS expr_int •
+   15         | expr_int • MINUS expr_int
+   16         | expr_int • MUL expr_int
+   17         | expr_int • DIV expr_int
+
+    PLUS   schiebe und gehe zu Zustand 21 über
+    MINUS  schiebe und gehe zu Zustand 22 über
+    MUL    schiebe und gehe zu Zustand 23 über
+    DIV    schiebe und gehe zu Zustand 24 über
+
+    $default  reduziere mit Regel 14 (expr_int)
+
+
+Zustand 34
+
+   13 expr_int: id •
+
+    $default  reduziere mit Regel 13 (expr_int)
+
+
+Zustand 35
+
+   14 expr_int: expr_int • PLUS expr_int
+   15         | expr_int • MINUS expr_int
+   15         | expr_int MINUS expr_int •
+   16         | expr_int • MUL expr_int
+   17         | expr_int • DIV expr_int
+
+    PLUS   schiebe und gehe zu Zustand 21 über
+    MINUS  schiebe und gehe zu Zustand 22 über
+    MUL    schiebe und gehe zu Zustand 23 über
+    DIV    schiebe und gehe zu Zustand 24 über
+
+    $default  reduziere mit Regel 15 (expr_int)
+
+
+Zustand 36
+
+   14 expr_int: expr_int • PLUS expr_int
+   15         | expr_int • MINUS expr_int
+   16         | expr_int • MUL expr_int
+   16         | expr_int MUL expr_int •
+   17         | expr_int • DIV expr_int
+
+    $default  reduziere mit Regel 16 (expr_int)
+
+
+Zustand 37
+
+   14 expr_int: expr_int • PLUS expr_int
+   15         | expr_int • MINUS expr_int
+   16         | expr_int • MUL expr_int
+   17         | expr_int • DIV expr_int
+   17         | expr_int DIV expr_int •
+
+    $default  reduziere mit Regel 17 (expr_int)
+
+
+Zustand 38
+
+   25 expr_float: LP • expr_float RP
+
+    FNUM  schiebe und gehe zu Zustand 12 über
+    ID    schiebe und gehe zu Zustand 8 über
+    LP    schiebe und gehe zu Zustand 38 über
+
+    expr_float  gehe zu Zustand 19 über
+    id          gehe zu Zustand 40 über
+
+
+Zustand 39
+
+   21 expr_float: expr_float • PLUS expr_float
+   21           | expr_float PLUS expr_float •
+   22           | expr_float • MINUS expr_float
+   23           | expr_float • MUL expr_float
+   24           | expr_float • DIV expr_float
+
+    PLUS   schiebe und gehe zu Zustand 25 über
+    MINUS  schiebe und gehe zu Zustand 26 über
+    MUL    schiebe und gehe zu Zustand 27 über
+    DIV    schiebe und gehe zu Zustand 28 über
+
+    $default  reduziere mit Regel 21 (expr_float)
+
+
+Zustand 40
+
+   20 expr_float: id •
+
+    $default  reduziere mit Regel 20 (expr_float)
+
+
+Zustand 41
+
+   21 expr_float: expr_float • PLUS expr_float
+   22           | expr_float • MINUS expr_float
+   22           | expr_float MINUS expr_float •
+   23           | expr_float • MUL expr_float
+   24           | expr_float • DIV expr_float
+
+    PLUS   schiebe und gehe zu Zustand 25 über
+    MINUS  schiebe und gehe zu Zustand 26 über
+    MUL    schiebe und gehe zu Zustand 27 über
+    DIV    schiebe und gehe zu Zustand 28 über
+
+    $default  reduziere mit Regel 22 (expr_float)
+
+
+Zustand 42
+
+   21 expr_float: expr_float • PLUS expr_float
+   22           | expr_float • MINUS expr_float
+   23           | expr_float • MUL expr_float
+   23           | expr_float MUL expr_float •
+   24           | expr_float • DIV expr_float
+
+    $default  reduziere mit Regel 23 (expr_float)
+
+
+Zustand 43
+
+   21 expr_float: expr_float • PLUS expr_float
+   22           | expr_float • MINUS expr_float
+   23           | expr_float • MUL expr_float
+   24           | expr_float • DIV expr_float
+   24           | expr_float DIV expr_float •
+
+    $default  reduziere mit Regel 24 (expr_float)
+
+
+Zustand 44
+
+    8 statement: id "=" expr_int •
+   14 expr_int: expr_int • PLUS expr_int
+   15         | expr_int • MINUS expr_int
+   16         | expr_int • MUL expr_int
+   17         | expr_int • DIV expr_int
+
+    PLUS   schiebe und gehe zu Zustand 21 über
+    MINUS  schiebe und gehe zu Zustand 22 über
+    MUL    schiebe und gehe zu Zustand 23 über
+    DIV    schiebe und gehe zu Zustand 24 über
+
+    $default  reduziere mit Regel 8 (statement)
+
+
+Zustand 45
+
+    9 statement: id "=" expr_float •
+   21 expr_float: expr_float • PLUS expr_float
+   22           | expr_float • MINUS expr_float
+   23           | expr_float • MUL expr_float
+   24           | expr_float • DIV expr_float
+
+    PLUS   schiebe und gehe zu Zustand 25 über
+    MINUS  schiebe und gehe zu Zustand 26 über
+    MUL    schiebe und gehe zu Zustand 27 über
+    DIV    schiebe und gehe zu Zustand 28 über
+
+    $default  reduziere mit Regel 9 (statement)

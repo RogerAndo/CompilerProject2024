@@ -526,9 +526,9 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    47,    47,    49,    51,    54,    57,    61,    63,    66,
-      78,    90,    93,    98,   101,   115,   118,   121,   124,   127,
-     132,   135,   149,   152,   155,   158,   161,   166
+       0,    46,    46,    48,    50,    53,    56,    60,    62,    65,
+      77,    89,    92,    97,   100,   114,   117,   120,   123,   126,
+     131,   134,   148,   151,   154,   157,   160,   165
 };
 #endif
 
@@ -1115,7 +1115,7 @@ yyreduce:
   switch (yyn)
     {
   case 5: /* declaration: INT id  */
-#line 54 "mini-c.y"
+#line 53 "mini-c.y"
              {
             insertSymbol((yyvsp[0].lexeme), 1, 0, 0);
       }
@@ -1123,7 +1123,7 @@ yyreduce:
     break;
 
   case 6: /* declaration: FLOAT id  */
-#line 57 "mini-c.y"
+#line 56 "mini-c.y"
                  {
             insertSymbol((yyvsp[0].lexeme), 0, 0, 0);
       }
@@ -1131,7 +1131,7 @@ yyreduce:
     break;
 
   case 9: /* statement: id "=" expr_int  */
-#line 66 "mini-c.y"
+#line 65 "mini-c.y"
                       {
             Symbol *sym = lookup_symbol((yyvsp[-2].lexeme));
             if(sym) {
@@ -1148,7 +1148,7 @@ yyreduce:
     break;
 
   case 10: /* statement: id "=" expr_float  */
-#line 78 "mini-c.y"
+#line 77 "mini-c.y"
                           {
             Symbol *sym = lookup_symbol((yyvsp[-2].lexeme));
             if(sym) {
@@ -1165,7 +1165,7 @@ yyreduce:
     break;
 
   case 11: /* statement: expr_int  */
-#line 90 "mini-c.y"
+#line 89 "mini-c.y"
                  {
             printf("Result: %d\n", (yyvsp[0].ival));
       }
@@ -1173,7 +1173,7 @@ yyreduce:
     break;
 
   case 12: /* statement: expr_float  */
-#line 93 "mini-c.y"
+#line 92 "mini-c.y"
                    {
             printf("Result: %f\n", (yyvsp[0].fval));
       }
@@ -1181,7 +1181,7 @@ yyreduce:
     break;
 
   case 13: /* expr_int: INUM  */
-#line 98 "mini-c.y"
+#line 97 "mini-c.y"
            {
             (yyval.ival) = (yyvsp[0].ival);
       }
@@ -1189,7 +1189,7 @@ yyreduce:
     break;
 
   case 14: /* expr_int: id  */
-#line 101 "mini-c.y"
+#line 100 "mini-c.y"
            {
             Symbol *sym = lookup_symbol((yyvsp[0].lexeme));
             if (sym) {
@@ -1208,7 +1208,7 @@ yyreduce:
     break;
 
   case 15: /* expr_int: expr_int PLUS expr_int  */
-#line 115 "mini-c.y"
+#line 114 "mini-c.y"
                                {
             (yyval.ival) = (yyvsp[-2].ival) + (yyvsp[0].ival);
       }
@@ -1216,7 +1216,7 @@ yyreduce:
     break;
 
   case 16: /* expr_int: expr_int MINUS expr_int  */
-#line 118 "mini-c.y"
+#line 117 "mini-c.y"
                                 {
             (yyval.ival) = (yyvsp[-2].ival) - (yyvsp[0].ival);
       }
@@ -1224,7 +1224,7 @@ yyreduce:
     break;
 
   case 17: /* expr_int: expr_int MUL expr_int  */
-#line 121 "mini-c.y"
+#line 120 "mini-c.y"
                               {
             (yyval.ival) = (yyvsp[-2].ival) * (yyvsp[0].ival);
       }
@@ -1232,7 +1232,7 @@ yyreduce:
     break;
 
   case 18: /* expr_int: expr_int DIV expr_int  */
-#line 124 "mini-c.y"
+#line 123 "mini-c.y"
                               {
             (yyval.ival) = (yyvsp[-2].ival) / (yyvsp[0].ival);
       }
@@ -1240,7 +1240,7 @@ yyreduce:
     break;
 
   case 19: /* expr_int: LP expr_int RP  */
-#line 127 "mini-c.y"
+#line 126 "mini-c.y"
                        {
             (yyval.ival) = (yyvsp[-1].ival);
       }
@@ -1248,7 +1248,7 @@ yyreduce:
     break;
 
   case 20: /* expr_float: FNUM  */
-#line 132 "mini-c.y"
+#line 131 "mini-c.y"
            {
             (yyval.fval) = (yyvsp[0].fval);
       }
@@ -1256,7 +1256,7 @@ yyreduce:
     break;
 
   case 21: /* expr_float: id  */
-#line 135 "mini-c.y"
+#line 134 "mini-c.y"
            {
             Symbol *sym = lookup_symbol((yyvsp[0].lexeme));
             if (sym) {
@@ -1275,7 +1275,7 @@ yyreduce:
     break;
 
   case 22: /* expr_float: expr_float PLUS expr_float  */
-#line 149 "mini-c.y"
+#line 148 "mini-c.y"
                                    {
             (yyval.fval) = (yyvsp[-2].fval) + (yyvsp[0].fval);
       }
@@ -1283,7 +1283,7 @@ yyreduce:
     break;
 
   case 23: /* expr_float: expr_float MINUS expr_float  */
-#line 152 "mini-c.y"
+#line 151 "mini-c.y"
                                     {
             (yyval.fval) = (yyvsp[-2].fval) - (yyvsp[0].fval);
       }
@@ -1291,7 +1291,7 @@ yyreduce:
     break;
 
   case 24: /* expr_float: expr_float MUL expr_float  */
-#line 155 "mini-c.y"
+#line 154 "mini-c.y"
                                   {
             (yyval.fval) = (yyvsp[-2].fval) * (yyvsp[0].fval);
       }
@@ -1299,7 +1299,7 @@ yyreduce:
     break;
 
   case 25: /* expr_float: expr_float DIV expr_float  */
-#line 158 "mini-c.y"
+#line 157 "mini-c.y"
                                   {
             (yyval.fval) = (yyvsp[-2].fval) / (yyvsp[0].fval);
       }
@@ -1307,7 +1307,7 @@ yyreduce:
     break;
 
   case 26: /* expr_float: LP expr_float RP  */
-#line 161 "mini-c.y"
+#line 160 "mini-c.y"
                          {
             (yyval.fval) = (yyvsp[-1].fval);
       }
@@ -1315,7 +1315,7 @@ yyreduce:
     break;
 
   case 27: /* id: ID  */
-#line 166 "mini-c.y"
+#line 165 "mini-c.y"
          {
             (yyval.lexeme) = strdup((yyvsp[0].lexeme));
       }
@@ -1516,7 +1516,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 171 "mini-c.y"
+#line 170 "mini-c.y"
 
 
 	

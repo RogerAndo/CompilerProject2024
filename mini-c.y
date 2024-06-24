@@ -30,10 +30,9 @@ int yylex(void);
 %token UNARY_MINUS
 
 //Define precedence and associativity
-%right ASSIGN
 %right PLUS MINUS
+%left ASSIGN
 %left MUL DIV
-
 %nonassoc SIGN
 
 %type <ival> expr_int

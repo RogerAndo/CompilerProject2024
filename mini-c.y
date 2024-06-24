@@ -3,8 +3,6 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdio.h>
-#include "lex.yy.c"
-#include "parser-defs.h"
 #include "symbolTable.h"
 
 void yyerror(const char *s)
@@ -12,8 +10,6 @@ void yyerror(const char *s)
     fprintf(stderr, "%s\n", s);
     exit(1);
 }
-
-extern YYSTYPE yylval;
 
 int yylex(void);
 
@@ -25,98 +21,152 @@ int yylex(void);
     char *lexeme;
 }
 
-%token <ival>  INT
-%token <fval>  FLOAT
+%token <ival> INUM
+%token <fval> FNUM
 %token <lexeme> ID
+%token INT FLOAT
+%token PLUS MINUS MUL DIV 
+%token LP RP ASSIGN
 %token UNARY_MINUS
 
 //Define precedence and associativity
-%right '='
-%right '+' '-'
-%left '*' '/'
+%right ASSIGN
+%right PLUS MINUS
+%left MUL DIV
 
 %nonassoc SIGN
 
-%type <yystype> expr
-%type <yystype> line
+%type <ival> expr_int
+%type <fval> expr_float
+%type <lexeme> id
 
 %start line
 
 %%
-line  : expr '\n'      {
-                        if($1.is_int) {
-                              printf("Result: %d\n", $1.value.ival);
-                        } else {
-                              printf("Result: %f\n", $1.value.fval);
-                        }
-                        exit(0);
+line:
+      declarations statements
+      ;
+declarations:
+
+      | declarations declaration
+      ;
+declaration:
+      INT id {
+            insertSymbol($2, 1, 0, 0);
       }
-      | ID '=' expr '\n'{
-                        if($3.is_int) {
-                              update_symbol($1, 1, $3.value.ival, 0.0);
-                        } else {
-                              update_symbol($1, 0, 0, $3.value.fval);
-                        }
-                        printf("Assigned %s\n", $1);
-      };
-expr  : expr '+' expr  {
-                        if($1.is_int && $3.is_int) {
-                              $$.is_int = 1;
-                              $$.value.ival = $1.value.ival + $3.value.ival;
-                        } else {
-                              $$.is_int = 0;
-                              $$.fval = ($1.is_int ? $1.value.ival : $1.value.fval) + ($3.is_int ? $3.value.ival : $3.value.fval); 
-                        }
+      | FLOAT id {
+            insertSymbol($2, 0, 0, 0);
       }
-      | expr '-' expr  {
-                        if($1.is_int && $3.is_int) {
-                              $$.is_int = 1;
-                              $$.value.ival = $1.value.ival - $3.value.ival;
-                        } else {
-                              $$.is_int = 0;
-                              $$.fval = ($1.is_int ? $1.value.ival : $1.value.ival) - ($3.is_int ? $3.value.ival : $3.value.fval); 
-                        }
+      ;
+statements:
+
+      | statements statement
+      ;
+statement:
+      id "=" expr_int {
+            Symbol *sym = lookup_symbol($1);
+            if(sym) {
+                  if (sym->type == 1) {
+                        sym->value.ival = $3;
+                  } else {
+                        yyerror("Type mismatch: expected float");
+                  }
+            } else {
+                  yyerror("Undefined variable");
+            }
       }
-      | expr '*' expr  {
-                        if($1.is_int && $3.is_int) {
-                              $$.is_int = 1;
-                              $$.value.ival = $1.value.ival * $3.value.ival;
-                        } else {
-                              $$.is_int = 0;
-                              $$.value.fval = ($1.is_int ? $1.value.ival : $1.value.ival) * ($3.is_int ? $3.value.ival : $3.value.fval); 
-                        }
+      | id "=" expr_float {
+            Symbol *sym = lookup_symbol($1);
+            if(sym) {
+                  if (sym->type == 0) {
+                        sym->value.fval = $3;
+                  } else {
+                        yyerror("Type mismatch: expected int");
+                        $$ = 0;
+                  }
+            } else {
+                  yyerror("Undefined variable");
+                  $$ = 0;
+            }
       }
-      | expr '/' expr  {
-                        if($1.is_int && $3.is_int) {
-                              $$.is_int = 1;
-                              $$.value.ival = $1.value.ival / $3.value.ival;
-                        } else {
-                              $$.is_int = 0;
-                              $$.value.fval = ($1.is_int ? $1.value.ival : $1.value.ival) / ($3.is_int ? $3.value.ival : $3.value.fval); 
-                        }
+      | expr_int {
+            printf("Result: %d\n", $1);
       }
-      | '('expr')'     {$$ = $2;}
-      | INT            {$$.is_int = 1; $$.value.ival = $1;}
-      | FLOAT          {$$.is_int = 0; $$.value.fval = $1;}
-      | '-' expr       %prec SIGN {
-                        $$.is_int = $2.is_int; 
-                        if ($2.is_int) {
-                              $$.value.ival = -$2.value.ival;
-                        } else {
-                              $$.value.fval = -$2.value.fval;
-                        }
+      | expr_float {
+            printf("Result: %f\n", $1);
       }
-      | ID             {
-                        Symbol *symbol = lookup_symbol($1);
-                        if(symbol == NULL) {
-                              yyerror("Undefined variable");
-                        }
-                        $$.is_int = (symbol->type == 1);
-                        if (symbol->type == 1) {
-                              $$.value.ival = symbol->value.ival;
-                        } else {
-                              $$.fval = symbol->value.fval;
-                        }
+      ;
+expr_int:
+      INUM {
+            $$ = $1;
+      }
+      | id {
+            Symbol *sym = lookup_symbol($1);
+            if (sym) {
+                  if (sym->type = 1) {
+                        $$ = sym->value.ival;
+                  } else {
+                        yyerror("Type mismatch: expected int");
+                        $$ = 0.0;
+                  }
+            } else {
+                  yyerror("Undefined variable");
+                  $$ = 0.0;
+            }
+      }
+      | expr_int PLUS expr_int {
+            $$ = $1 + $3;
+      }
+      | expr_int MINUS expr_int {
+            $$ = $1 - $3;
+      }
+      | expr_int MUL expr_int {
+            $$ = $1 * $3;
+      }
+      | expr_int DIV expr_int {
+            $$ = $1 / $3;
+      }
+      | LP expr_int RP {
+            $$ = $2;
+      }
+      ;
+expr_float:
+      FNUM {
+            $$ = $1;
+      }
+      | id {
+            Symbol *sym = lookup_symbol($1);
+            if (sym) {
+                  if (sym->type = 0) {
+                        $$ = sym->value.fval;
+                  } else {
+                        yyerror("Type mismatch: expected float");
+                        $$ = 0;
+                  }
+            } else {
+                  yyerror("Undefined variable");
+                  $$ = 0;
+            }
+      }
+      | expr_float PLUS expr_float {
+            $$ = $1 + $3;
+      }
+      | expr_float MINUS expr_float {
+            $$ = $1 - $3;
+      }
+      | expr_float MUL expr_float {
+            $$ = $1 * $3;
+      }
+      | expr_float DIV expr_float {
+            $$ = $1 / $3;
+      }
+      | LP expr_float RP {
+            $$ = $2;
+      }
+      ;
+id:
+      ID {
+            $$ = strdup($1);
       }
       ;
 

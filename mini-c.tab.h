@@ -54,11 +54,20 @@ extern int yydebug;
     YYEOF = 0,                     /* "end of file"  */
     YYerror = 256,                 /* error  */
     YYUNDEF = 257,                 /* "invalid token"  */
-    INT = 258,                     /* INT  */
-    FLOAT = 259,                   /* FLOAT  */
+    INUM = 258,                    /* INUM  */
+    FNUM = 259,                    /* FNUM  */
     ID = 260,                      /* ID  */
-    UNARY_MINUS = 261,             /* UNARY_MINUS  */
-    SIGN = 262                     /* SIGN  */
+    INT = 261,                     /* INT  */
+    FLOAT = 262,                   /* FLOAT  */
+    PLUS = 263,                    /* PLUS  */
+    MINUS = 264,                   /* MINUS  */
+    MUL = 265,                     /* MUL  */
+    DIV = 266,                     /* DIV  */
+    LP = 267,                      /* LP  */
+    RP = 268,                      /* RP  */
+    ASSIGN = 269,                  /* ASSIGN  */
+    UNARY_MINUS = 270,             /* UNARY_MINUS  */
+    SIGN = 271                     /* SIGN  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -67,13 +76,13 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 22 "mini-c.y"
+#line 18 "mini-c.y"
 
     int ival;
     float fval;
     char *lexeme;
 
-#line 77 "mini-c.tab.h"
+#line 86 "mini-c.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

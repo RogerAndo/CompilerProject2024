@@ -2,30 +2,29 @@
 %{
 #include <stdlib.h>
 #include <string.h>
-#include "parser-defs.h"
 #include "mini-c.tab.h"
 %}
 
 digit  [0-9]
 
-int {digit}+
-float {digit}+(\.{digit}+)
-
 letter [a-zA-Z]
 id {letter}+
 %%
 
-{int} {yylval.value.ival = atoi(yytext); return INT;}
-{float} {yylval.value.fval = atof(yytext); return FLOAT;}
+"int" {return INT;}
+"float" {return FLOAT;}
+{digit}+ {yylval.ival = atoi(yytext); return INUM;}
+{digit}+(\.{digit}+) {yylval.fval = atof(yytext); return FNUM;}
 {id} {yylval.lexeme = strdup(yytext); return ID;}
 
-"+" {return '+';}
-"-" {return '-';}
-"*" {return '*';}
-"/" {return '/';}
-"(" {return '(';}
-")" {return ')';}
+"+" {return PLUS;}
+"-" {return MINUS;}
+"*" {return MUL;}
+"/" {return DIV;}
+"=" {return ASSIGN;}
+"(" {return LP;}
+")" {return RP;}
 [ \t\n\r]+  /* skip whitespace */
-.  { /* any other character */ }
+.  { fprintf(stderr, "Unexpected character: %s\n", yytext); }
 
 %%

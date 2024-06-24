@@ -82,11 +82,9 @@ statement:
                         sym->value.fval = $3;
                   } else {
                         yyerror("Type mismatch: expected int");
-                        $$ = 0;
                   }
             } else {
                   yyerror("Undefined variable");
-                  $$ = 0;
             }
       }
       | expr_int {

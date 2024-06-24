@@ -1197,11 +1197,11 @@ yyreduce:
                         (yyval.ival) = sym->value.ival;
                   } else {
                         yyerror("Type mismatch: expected int");
-                        (yyval.ival) = 0;
+                        (yyval.ival) = 0.0;
                   }
             } else {
                   yyerror("Undefined variable");
-                  (yyval.ival) = 0;
+                  (yyval.ival) = 0.0;
             }
       }
 #line 1208 "mini-c.tab.c"

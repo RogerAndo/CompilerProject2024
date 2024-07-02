@@ -67,17 +67,26 @@ statement:
             Symbol *sym = lookup_symbol($1);
             if(sym) {
                   if (sym->type == 1) {
-                        sym->value.ival = $3->value.ival;
-                        printf("Assign %s: %d\n", $1, $3->value.ival);
+                        if($3->type == 1) {
+                              sym->value.ival = $3->value.ival;
+                              printf("Assign %s: %d\n", $1, $3->value.ival);
+                        } else {
+                              yyerror("Type mismatch: expected int received float");
+                        }               
                   } else if(sym->type == 0) {
-                        sym->value.fval = $3->value.fval;
-                        printf("Assign %s: %f\n", $1, $3->value.fval);
+                        if($3->type == 0) {
+                              sym->value.fval = $3->value.fval;
+                              printf("Assign %s: %f\n", $1, $3->value.fval);
+                        } else {
+                              sym->value.fval = (float)$3->value.ival;
+                        }
                   } else {
                         yyerror("Type mismatch");
                   }
             } else {
                   yyerror("Undefined variable");
             }
+            free($3);
       }
       | expr {
             if( $1->type == 1) {

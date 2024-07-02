@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "mini-c.tab.h"
+#include "expr.h"
 %}
 
 digit  [0-9]

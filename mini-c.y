@@ -4,6 +4,7 @@
 #include <ctype.h>
 #include <stdio.h>
 #include "symbolTable.h"
+#include "expr.h"
 
 void yyerror(const char *s)
 {
@@ -19,6 +20,7 @@ int yylex(void);
     int ival;
     float fval;
     char *lexeme;
+    struct expr *expression;
 }
 
 %token <ival> INUM
@@ -35,8 +37,7 @@ int yylex(void);
 %left MUL DIV
 %nonassoc SIGN
 
-%type <ival> expr_int
-%type <fval> expr_float
+%type <expression> expr
 %type <lexeme> id
 
 %start line
@@ -51,10 +52,10 @@ declarations:
       ;
 declaration:
       INT id {
-            insertSymbol($2, 1, 0, 0);
+            insertSymbol($2, 1, 0, 0.0);
       }
       | FLOAT id {
-            insertSymbol($2, 0, 0, 0);
+            insertSymbol($2, 0, 0, 0.0);
       }
       ;
 statements:
@@ -62,109 +63,143 @@ statements:
       | statements statement
       ;
 statement:
-      id ASSIGN expr_int {
+      id ASSIGN expr {
             Symbol *sym = lookup_symbol($1);
             if(sym) {
                   if (sym->type == 1) {
-                        sym->value.ival = $3;
+                        sym->value.ival = $3->value.ival;
+                        printf("Assign %s: %d\n", $1, $3->value.ival);
+                  } else if(sym->type == 0) {
+                        sym->value.fval = $3->value.fval;
+                        printf("Assign %s: %f\n", $1, $3->value.fval);
                   } else {
-                        yyerror("Type mismatch: expected float");
+                        yyerror("Type mismatch");
                   }
             } else {
                   yyerror("Undefined variable");
             }
       }
-      | id ASSIGN expr_float {
-            Symbol *sym = lookup_symbol($1);
-            if(sym) {
-                  if (sym->type == 0) {
-                        sym->value.fval = $3;
-                  } else {
-                        yyerror("Type mismatch: expected int");
-                  }
+      | expr {
+            if( $1->type == 1) {
+                  printf("Result: %d\n", $1->value.ival);
             } else {
-                  yyerror("Undefined variable");
+                  printf("Result: %f\n", $1->value.fval);
             }
-      }
-      | expr_int {
-            printf("Result: %d\n", $1);
-      }
-      | expr_float {
-            printf("Result: %f\n", $1);
+            free($1);
       }
       ;
-expr_int:
+expr:
       INUM {
-            $$ = $1;
+            $$ = malloc(sizeof(struct expr));
+            $$->value.ival = $1;
+            $$->type = 1;
+      }
+      | FNUM {
+            $$ = malloc(sizeof(struct expr));
+            $$->value.fval = $1;
+            $$->type = 0;
       }
       | id {
             Symbol *sym = lookup_symbol($1);
             if (sym) {
-                  if (sym->type = 1) {
-                        $$ = sym->value.ival;
+                  $$ = malloc(sizeof(struct expr));
+                  if (sym->type == 1) {
+                        $$->value.ival = sym->value.ival;
+                        $$->type = 1;
+                  }else if (sym->type == 0) {
+                        $$->value.fval = sym->value.fval;
+                        $$->type = 0;
                   } else {
-                        yyerror("Type mismatch: expected int");
-                        $$ = 0.0;
+                        yyerror("Type mismatch");
                   }
             } else {
                   yyerror("Undefined variable");
-                  $$ = 0.0;
             }
       }
-      | expr_int PLUS expr_int {
-            $$ = $1 + $3;
-      }
-      | expr_int MINUS expr_int {
-            $$ = $1 - $3;
-      }
-      | expr_int MUL expr_int {
-            $$ = $1 * $3;
-      }
-      | expr_int DIV expr_int {
-            $$ = $1 / $3;
-      }
-      | LP expr_int RP {
-            $$ = $2;
-      }
-      | MINUS expr_int %prec SIGN {
-            $$ = -$2;
-      }
-      ;
-expr_float:
-      FNUM {
-            $$ = $1;
-      }
-      | id {
-            Symbol *sym = lookup_symbol($1);
-            if (sym) {
-                  if (sym->type = 0) {
-                        $$ = sym->value.fval;
-                  } else {
-                        yyerror("Type mismatch: expected float");
-                        $$ = 0;
-                  }
+      | expr PLUS expr {
+            $$ = malloc(sizeof(struct expr));
+            if( $1->type == 1 && $3->type == 1) {
+                  $$->value.ival = $1->value.ival + $3->value.ival;
+                  $$->type = 1;
+            } else if ($1->type == 0 && $3->type == 1) {
+                  $$->value.fval = $1->value.fval + $3->value.ival;
+                  $$->type = 0;
+            } else if ($1->type == 1 && $3->type == 0) {
+                  $$->value.fval = $1->value.ival + $3->value.fval;
+                  $$->type = 0;
             } else {
-                  yyerror("Undefined variable");
-                  $$ = 0;
+                  $$->value.fval = $1->value.fval + $3->value.fval;
+                  $$->type = 0;
             }
+            free($1);
+            free($3);
       }
-      | expr_float PLUS expr_float {
-            $$ = $1 + $3;
+      | expr MINUS expr {
+            $$ = malloc(sizeof(struct expr));
+            if( $1->type == 1 && $3->type == 1) {
+                  $$->value.ival = $1->value.ival - $3->value.ival;
+                  $$->type = 1;
+            } else if ($1->type == 0 && $3->type == 1) {
+                  $$->value.fval = $1->value.fval - $3->value.ival;
+                  $$->type = 0;
+            } else if ($1->type == 1 && $3->type == 0) {
+                  $$->value.fval = $1->value.ival - $3->value.fval;
+                  $$->type = 0;
+            } else {
+                  $$->value.fval = $1->value.fval - $3->value.fval;
+                  $$->type = 0;
+            }
+            free($1);
+            free($3);
       }
-      | expr_float MINUS expr_float {
-            $$ = $1 - $3;
+      | expr MUL expr {
+            $$ = malloc(sizeof(struct expr));
+            if( $1->type == 1 && $3->type == 1) {
+                  $$->value.ival = $1->value.ival * $3->value.ival;
+                  $$->type = 1;
+            } else if ($1->type == 0 && $3->type == 1) {
+                  $$->value.fval = $1->value.fval * $3->value.ival;
+                  $$->type = 0;
+            } else if ($1->type == 1 && $3->type == 0) {
+                  $$->value.fval = $1->value.ival * $3->value.fval;
+                  $$->type = 0;
+            } else {
+                  $$->value.fval = $1->value.fval * $3->value.fval;
+                  $$->type = 0;
+            }
+            free($1);
+            free($3);
       }
-      | expr_float MUL expr_float {
-            $$ = $1 * $3;
+      | expr DIV expr {
+            $$ = malloc(sizeof(struct expr));
+            if( $1->type == 1 && $3->type == 1) {
+                  $$->value.ival = $1->value.ival / $3->value.ival;
+                  $$->type = 1;
+            } else if ($1->type == 0 && $3->type == 1) {
+                  $$->value.fval = $1->value.fval / $3->value.ival;
+                  $$->type = 0;
+            } else if ($1->type == 1 && $3->type == 0) {
+                  $$->value.fval = $1->value.ival / $3->value.fval;
+                  $$->type = 0;
+            } else {
+                  $$->value.fval = $1->value.fval / $3->value.fval;
+                  $$->type = 0;
+            }
+            free($1);
+            free($3);
       }
-      | expr_float DIV expr_float {
-            $$ = $1 / $3;
-      }
-      | LP expr_float RP {
+      | LP expr RP {
             $$ = $2;
       }
-      | MINUS expr_float %prec SIGN {
-            $$ = -$2;
+      | MINUS expr %prec SIGN {
+            $$ = malloc(sizeof(struct expr));
+            $$->type = $2->type;
+            if($2->type == 1) {
+                  $$->value.ival = -$2->value.ival;
+            } else {
+                  $$->value.fval = -$2->value.fval;
+            }
+            free($2);
       }
       ;
 id:

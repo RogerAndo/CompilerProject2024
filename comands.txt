@@ -1,3 +1,0 @@
-flex mini-c.l
-bison -d mini-c.y
-gcc -o mini-c mini-c.tab.c lex.yy.c symbolTable.c -lfl -ly -lm

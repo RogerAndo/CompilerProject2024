@@ -492,8 +492,9 @@ char *yytext_ptr;
 #include <stdlib.h>
 #include <string.h>
 #include "mini-c.tab.h"
-#line 496 "lex.yy.c"
+#include "expr.h"
 #line 497 "lex.yy.c"
+#line 498 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -710,10 +711,10 @@ YY_DECL
 		}
 
 	{
-#line 12 "mini-c.l"
+#line 13 "mini-c.l"
 
 
-#line 717 "lex.yy.c"
+#line 718 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -782,81 +783,81 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 14 "mini-c.l"
+#line 15 "mini-c.l"
 {return INT;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 15 "mini-c.l"
+#line 16 "mini-c.l"
 {return FLOAT;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 16 "mini-c.l"
+#line 17 "mini-c.l"
 {yylval.ival = atoi(yytext); return INUM;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 17 "mini-c.l"
+#line 18 "mini-c.l"
 {yylval.fval = atof(yytext); return FNUM;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 18 "mini-c.l"
+#line 19 "mini-c.l"
 {yylval.lexeme = strdup(yytext); return ID;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 20 "mini-c.l"
+#line 21 "mini-c.l"
 {return ASSIGN;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 21 "mini-c.l"
+#line 22 "mini-c.l"
 {return PLUS;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 22 "mini-c.l"
+#line 23 "mini-c.l"
 {return MINUS;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 23 "mini-c.l"
+#line 24 "mini-c.l"
 {return MUL;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 24 "mini-c.l"
+#line 25 "mini-c.l"
 {return DIV;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 25 "mini-c.l"
+#line 26 "mini-c.l"
 {return LP;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 26 "mini-c.l"
+#line 27 "mini-c.l"
 {return RP;}
 	YY_BREAK
 case 13:
 /* rule 13 can match eol */
 YY_RULE_SETUP
-#line 27 "mini-c.l"
+#line 28 "mini-c.l"
 /* skip whitespace */
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 28 "mini-c.l"
+#line 29 "mini-c.l"
 { fprintf(stderr, "Unexpected character: %s\n", yytext); }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 30 "mini-c.l"
+#line 31 "mini-c.l"
 ECHO;
 	YY_BREAK
-#line 860 "lex.yy.c"
+#line 861 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1873,6 +1874,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 30 "mini-c.l"
+#line 31 "mini-c.l"
 
 

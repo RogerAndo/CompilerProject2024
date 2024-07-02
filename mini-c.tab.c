@@ -74,6 +74,7 @@
 #include <ctype.h>
 #include <stdio.h>
 #include "symbolTable.h"
+#include "expr.h"
 
 void yyerror(const char *s)
 {
@@ -84,7 +85,7 @@ void yyerror(const char *s)
 int yylex(void);
 
 
-#line 88 "mini-c.tab.c"
+#line 89 "mini-c.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -135,9 +136,8 @@ enum yysymbol_kind_t
   YYSYMBOL_declaration = 20,               /* declaration  */
   YYSYMBOL_statements = 21,                /* statements  */
   YYSYMBOL_statement = 22,                 /* statement  */
-  YYSYMBOL_expr_int = 23,                  /* expr_int  */
-  YYSYMBOL_expr_float = 24,                /* expr_float  */
-  YYSYMBOL_id = 25                         /* id  */
+  YYSYMBOL_expr = 23,                      /* expr  */
+  YYSYMBOL_id = 24                         /* id  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -465,16 +465,16 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  3
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   77
+#define YYLAST   30
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  17
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  9
+#define YYNNTS  8
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  29
+#define YYNRULES  20
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  51
+#define YYNSTATES  32
 
 /* YYMAXUTOK -- Last valid token kind.  */
 #define YYMAXUTOK   271
@@ -525,9 +525,9 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    46,    46,    48,    50,    53,    56,    60,    62,    65,
-      77,    89,    92,    97,   100,   114,   117,   120,   123,   126,
-     129,   134,   137,   151,   154,   157,   160,   163,   166,   171
+       0,    47,    47,    49,    51,    54,    57,    61,    63,    66,
+      82,    92,    97,   102,   119,   137,   155,   173,   191,   194,
+     206
 };
 #endif
 
@@ -546,7 +546,7 @@ static const char *const yytname[] =
   "\"end of file\"", "error", "\"invalid token\"", "INUM", "FNUM", "ID",
   "INT", "FLOAT", "PLUS", "MINUS", "MUL", "DIV", "LP", "RP", "ASSIGN",
   "UNARY_MINUS", "SIGN", "$accept", "line", "declarations", "declaration",
-  "statements", "statement", "expr_int", "expr_float", "id", YY_NULLPTR
+  "statements", "statement", "expr", "id", YY_NULLPTR
 };
 
 static const char *
@@ -556,7 +556,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-5)
+#define YYPACT_NINF (-14)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -570,12 +570,10 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -5,     4,    12,    -5,    -3,    -3,    -5,     2,    -5,    -5,
-      -5,    -5,    -5,     2,     2,    -5,    62,    66,     9,    -5,
-      -5,    -5,    47,    56,    37,    37,    37,    37,     8,     8,
-       8,     8,     2,    -5,    -5,    37,    37,    11,    -5,    11,
-      -5,    -5,     8,     8,    25,    -5,    25,    -5,    -5,    62,
-      66
+     -14,     6,    21,   -14,    11,    11,   -14,    10,   -14,   -14,
+     -14,   -14,   -14,    10,    10,   -14,    15,     7,   -14,   -14,
+      -6,    10,    10,    10,    10,    10,   -14,    19,    19,   -14,
+     -14,    15
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -583,24 +581,22 @@ static const yytype_int8 yypact[] =
    means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       3,     0,     7,     1,     0,     0,     4,     2,    29,     5,
-       6,    13,    21,     0,     0,     8,    11,    12,    14,    20,
-      28,    14,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,    19,    27,     0,     0,    15,    14,    16,
-      17,    18,     0,     0,    23,    22,    24,    25,    26,     9,
-      10
+       3,     0,     7,     1,     0,     0,     4,     2,    20,     5,
+       6,    11,    12,     0,     0,     8,    10,    13,    19,    13,
+       0,     0,     0,     0,     0,     0,    18,    14,    15,    16,
+      17,     9
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-      -5,    -5,    -5,    -5,    -5,    -5,    27,     1,    -4
+     -14,   -14,   -14,   -14,   -14,   -14,   -13,    13
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-       0,     1,     2,     6,     7,    15,    19,    20,    38
+       0,     1,     2,     6,     7,    15,    16,    19
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -608,54 +604,44 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-       9,    10,     8,    18,     3,    11,    12,     8,    17,    21,
-      21,    13,    12,     8,    14,    23,     0,    42,     4,     5,
-      43,    26,    27,    32,    45,    45,    45,    45,    21,    44,
-      46,    47,    48,    50,    16,    30,    31,     0,    45,    45,
-      11,    22,     8,     0,    23,     0,    35,     0,     0,    36,
-       0,    37,    39,    40,    41,    24,    25,    26,    27,    49,
-      33,     0,     0,    22,    28,    29,    30,    31,     0,    34,
-      24,    25,    26,    27,    28,    29,    30,    31
+      18,    20,    21,    22,    23,    24,     3,    26,    27,    28,
+      29,    30,    31,    11,    12,     8,     8,     9,    10,    13,
+      17,    25,    14,    21,    22,    23,    24,     4,     5,    23,
+      24
 };
 
 static const yytype_int8 yycheck[] =
 {
-       4,     5,     5,     7,     0,     3,     4,     5,     7,    13,
-      14,     9,     4,     5,    12,    14,    -1,     9,     6,     7,
-      12,    10,    11,    14,    28,    29,    30,    31,    32,    28,
-      29,    30,    31,    32,     7,    10,    11,    -1,    42,    43,
-       3,    14,     5,    -1,    43,    -1,     9,    -1,    -1,    12,
-      -1,    24,    25,    26,    27,     8,     9,    10,    11,    32,
-      13,    -1,    -1,    36,     8,     9,    10,    11,    -1,    13,
-       8,     9,    10,    11,     8,     9,    10,    11
+      13,    14,     8,     9,    10,    11,     0,    13,    21,    22,
+      23,    24,    25,     3,     4,     5,     5,     4,     5,     9,
+       7,    14,    12,     8,     9,    10,    11,     6,     7,    10,
+      11
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,    18,    19,     0,     6,     7,    20,    21,     5,    25,
-      25,     3,     4,     9,    12,    22,    23,    24,    25,    23,
-      24,    25,    23,    24,     8,     9,    10,    11,     8,     9,
-      10,    11,    14,    13,    13,     9,    12,    23,    25,    23,
-      23,    23,     9,    12,    24,    25,    24,    24,    24,    23,
-      24
+       0,    18,    19,     0,     6,     7,    20,    21,     5,    24,
+      24,     3,     4,     9,    12,    22,    23,    24,    23,    24,
+      23,     8,     9,    10,    11,    14,    13,    23,    23,    23,
+      23,    23
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
        0,    17,    18,    19,    19,    20,    20,    21,    21,    22,
-      22,    22,    22,    23,    23,    23,    23,    23,    23,    23,
-      23,    24,    24,    24,    24,    24,    24,    24,    24,    25
+      22,    23,    23,    23,    23,    23,    23,    23,    23,    23,
+      24
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
        0,     2,     2,     0,     2,     2,     2,     0,     2,     3,
-       3,     1,     1,     1,     1,     3,     3,     3,     3,     3,
-       2,     1,     1,     3,     3,     3,     3,     3,     2,     1
+       1,     1,     1,     1,     3,     3,     3,     3,     3,     2,
+       1
 };
 
 
@@ -1119,231 +1105,222 @@ yyreduce:
   switch (yyn)
     {
   case 5: /* declaration: INT id  */
-#line 53 "mini-c.y"
+#line 54 "mini-c.y"
              {
-            insertSymbol((yyvsp[0].lexeme), 1, 0, 0);
+            insertSymbol((yyvsp[0].lexeme), 1, 0, 0.0);
       }
-#line 1127 "mini-c.tab.c"
+#line 1113 "mini-c.tab.c"
     break;
 
   case 6: /* declaration: FLOAT id  */
-#line 56 "mini-c.y"
+#line 57 "mini-c.y"
                  {
-            insertSymbol((yyvsp[0].lexeme), 0, 0, 0);
+            insertSymbol((yyvsp[0].lexeme), 0, 0, 0.0);
       }
-#line 1135 "mini-c.tab.c"
+#line 1121 "mini-c.tab.c"
     break;
 
-  case 9: /* statement: id ASSIGN expr_int  */
-#line 65 "mini-c.y"
-                         {
+  case 9: /* statement: id ASSIGN expr  */
+#line 66 "mini-c.y"
+                     {
             Symbol *sym = lookup_symbol((yyvsp[-2].lexeme));
             if(sym) {
                   if (sym->type == 1) {
-                        sym->value.ival = (yyvsp[0].ival);
+                        sym->value.ival = (yyvsp[0].expression)->value.ival;
+                        printf("Assign %s: %d\n", (yyvsp[-2].lexeme), (yyvsp[0].expression)->value.ival);
+                  } else if(sym->type == 0) {
+                        sym->value.fval = (yyvsp[0].expression)->value.fval;
+                        printf("Assign %s: %f\n", (yyvsp[-2].lexeme), (yyvsp[0].expression)->value.fval);
                   } else {
-                        yyerror("Type mismatch: expected float");
+                        yyerror("Type mismatch");
                   }
             } else {
                   yyerror("Undefined variable");
             }
       }
-#line 1152 "mini-c.tab.c"
+#line 1142 "mini-c.tab.c"
     break;
 
-  case 10: /* statement: id ASSIGN expr_float  */
-#line 77 "mini-c.y"
-                             {
-            Symbol *sym = lookup_symbol((yyvsp[-2].lexeme));
-            if(sym) {
-                  if (sym->type == 0) {
-                        sym->value.fval = (yyvsp[0].fval);
-                  } else {
-                        yyerror("Type mismatch: expected int");
-                  }
+  case 10: /* statement: expr  */
+#line 82 "mini-c.y"
+             {
+            if( (yyvsp[0].expression)->type == 1) {
+                  printf("Result: %d\n", (yyvsp[0].expression)->value.ival);
             } else {
-                  yyerror("Undefined variable");
+                  printf("Result: %f\n", (yyvsp[0].expression)->value.fval);
             }
+            free((yyvsp[0].expression));
       }
-#line 1169 "mini-c.tab.c"
+#line 1155 "mini-c.tab.c"
     break;
 
-  case 11: /* statement: expr_int  */
-#line 89 "mini-c.y"
-                 {
-            printf("Result: %d\n", (yyvsp[0].ival));
-      }
-#line 1177 "mini-c.tab.c"
-    break;
-
-  case 12: /* statement: expr_float  */
+  case 11: /* expr: INUM  */
 #line 92 "mini-c.y"
-                   {
-            printf("Result: %f\n", (yyvsp[0].fval));
-      }
-#line 1185 "mini-c.tab.c"
-    break;
-
-  case 13: /* expr_int: INUM  */
-#line 97 "mini-c.y"
            {
-            (yyval.ival) = (yyvsp[0].ival);
+            (yyval.expression) = malloc(sizeof(struct expr));
+            (yyval.expression)->value.ival = (yyvsp[0].ival);
+            (yyval.expression)->type = 1;
       }
-#line 1193 "mini-c.tab.c"
+#line 1165 "mini-c.tab.c"
     break;
 
-  case 14: /* expr_int: id  */
-#line 100 "mini-c.y"
+  case 12: /* expr: FNUM  */
+#line 97 "mini-c.y"
+             {
+            (yyval.expression) = malloc(sizeof(struct expr));
+            (yyval.expression)->value.fval = (yyvsp[0].fval);
+            (yyval.expression)->type = 0;
+      }
+#line 1175 "mini-c.tab.c"
+    break;
+
+  case 13: /* expr: id  */
+#line 102 "mini-c.y"
            {
             Symbol *sym = lookup_symbol((yyvsp[0].lexeme));
             if (sym) {
-                  if (sym->type = 1) {
-                        (yyval.ival) = sym->value.ival;
+                  (yyval.expression) = malloc(sizeof(struct expr));
+                  if (sym->type == 1) {
+                        (yyval.expression)->value.ival = sym->value.ival;
+                        (yyval.expression)->type = 1;
+                  }else if (sym->type == 0) {
+                        (yyval.expression)->value.fval = sym->value.fval;
+                        (yyval.expression)->type = 0;
                   } else {
-                        yyerror("Type mismatch: expected int");
-                        (yyval.ival) = 0.0;
+                        yyerror("Type mismatch");
                   }
             } else {
                   yyerror("Undefined variable");
-                  (yyval.ival) = 0.0;
             }
       }
-#line 1212 "mini-c.tab.c"
+#line 1197 "mini-c.tab.c"
     break;
 
-  case 15: /* expr_int: expr_int PLUS expr_int  */
-#line 114 "mini-c.y"
-                               {
-            (yyval.ival) = (yyvsp[-2].ival) + (yyvsp[0].ival);
+  case 14: /* expr: expr PLUS expr  */
+#line 119 "mini-c.y"
+                       {
+            (yyval.expression) = malloc(sizeof(struct expr));
+            if( (yyvsp[-2].expression)->type == 1 && (yyvsp[0].expression)->type == 1) {
+                  (yyval.expression)->value.ival = (yyvsp[-2].expression)->value.ival + (yyvsp[0].expression)->value.ival;
+                  (yyval.expression)->type = 1;
+            } else if ((yyvsp[-2].expression)->type == 0 && (yyvsp[0].expression)->type == 1) {
+                  (yyval.expression)->value.fval = (yyvsp[-2].expression)->value.fval + (yyvsp[0].expression)->value.ival;
+                  (yyval.expression)->type = 0;
+            } else if ((yyvsp[-2].expression)->type == 1 && (yyvsp[0].expression)->type == 0) {
+                  (yyval.expression)->value.fval = (yyvsp[-2].expression)->value.ival + (yyvsp[0].expression)->value.fval;
+                  (yyval.expression)->type = 0;
+            } else {
+                  (yyval.expression)->value.fval = (yyvsp[-2].expression)->value.fval + (yyvsp[0].expression)->value.fval;
+                  (yyval.expression)->type = 0;
+            }
+            free((yyvsp[-2].expression));
+            free((yyvsp[0].expression));
       }
 #line 1220 "mini-c.tab.c"
     break;
 
-  case 16: /* expr_int: expr_int MINUS expr_int  */
-#line 117 "mini-c.y"
-                                {
-            (yyval.ival) = (yyvsp[-2].ival) - (yyvsp[0].ival);
-      }
-#line 1228 "mini-c.tab.c"
-    break;
-
-  case 17: /* expr_int: expr_int MUL expr_int  */
-#line 120 "mini-c.y"
-                              {
-            (yyval.ival) = (yyvsp[-2].ival) * (yyvsp[0].ival);
-      }
-#line 1236 "mini-c.tab.c"
-    break;
-
-  case 18: /* expr_int: expr_int DIV expr_int  */
-#line 123 "mini-c.y"
-                              {
-            (yyval.ival) = (yyvsp[-2].ival) / (yyvsp[0].ival);
-      }
-#line 1244 "mini-c.tab.c"
-    break;
-
-  case 19: /* expr_int: LP expr_int RP  */
-#line 126 "mini-c.y"
-                       {
-            (yyval.ival) = (yyvsp[-1].ival);
-      }
-#line 1252 "mini-c.tab.c"
-    break;
-
-  case 20: /* expr_int: MINUS expr_int  */
-#line 129 "mini-c.y"
-                                  {
-            (yyval.ival) = -(yyvsp[0].ival);
-      }
-#line 1260 "mini-c.tab.c"
-    break;
-
-  case 21: /* expr_float: FNUM  */
-#line 134 "mini-c.y"
-           {
-            (yyval.fval) = (yyvsp[0].fval);
-      }
-#line 1268 "mini-c.tab.c"
-    break;
-
-  case 22: /* expr_float: id  */
+  case 15: /* expr: expr MINUS expr  */
 #line 137 "mini-c.y"
-           {
-            Symbol *sym = lookup_symbol((yyvsp[0].lexeme));
-            if (sym) {
-                  if (sym->type = 0) {
-                        (yyval.fval) = sym->value.fval;
-                  } else {
-                        yyerror("Type mismatch: expected float");
-                        (yyval.fval) = 0;
-                  }
+                        {
+            (yyval.expression) = malloc(sizeof(struct expr));
+            if( (yyvsp[-2].expression)->type == 1 && (yyvsp[0].expression)->type == 1) {
+                  (yyval.expression)->value.ival = (yyvsp[-2].expression)->value.ival - (yyvsp[0].expression)->value.ival;
+                  (yyval.expression)->type = 1;
+            } else if ((yyvsp[-2].expression)->type == 0 && (yyvsp[0].expression)->type == 1) {
+                  (yyval.expression)->value.fval = (yyvsp[-2].expression)->value.fval - (yyvsp[0].expression)->value.ival;
+                  (yyval.expression)->type = 0;
+            } else if ((yyvsp[-2].expression)->type == 1 && (yyvsp[0].expression)->type == 0) {
+                  (yyval.expression)->value.fval = (yyvsp[-2].expression)->value.ival - (yyvsp[0].expression)->value.fval;
+                  (yyval.expression)->type = 0;
             } else {
-                  yyerror("Undefined variable");
-                  (yyval.fval) = 0;
+                  (yyval.expression)->value.fval = (yyvsp[-2].expression)->value.fval - (yyvsp[0].expression)->value.fval;
+                  (yyval.expression)->type = 0;
             }
+            free((yyvsp[-2].expression));
+            free((yyvsp[0].expression));
       }
-#line 1287 "mini-c.tab.c"
+#line 1243 "mini-c.tab.c"
     break;
 
-  case 23: /* expr_float: expr_float PLUS expr_float  */
-#line 151 "mini-c.y"
-                                   {
-            (yyval.fval) = (yyvsp[-2].fval) + (yyvsp[0].fval);
+  case 16: /* expr: expr MUL expr  */
+#line 155 "mini-c.y"
+                      {
+            (yyval.expression) = malloc(sizeof(struct expr));
+            if( (yyvsp[-2].expression)->type == 1 && (yyvsp[0].expression)->type == 1) {
+                  (yyval.expression)->value.ival = (yyvsp[-2].expression)->value.ival * (yyvsp[0].expression)->value.ival;
+                  (yyval.expression)->type = 1;
+            } else if ((yyvsp[-2].expression)->type == 0 && (yyvsp[0].expression)->type == 1) {
+                  (yyval.expression)->value.fval = (yyvsp[-2].expression)->value.fval * (yyvsp[0].expression)->value.ival;
+                  (yyval.expression)->type = 0;
+            } else if ((yyvsp[-2].expression)->type == 1 && (yyvsp[0].expression)->type == 0) {
+                  (yyval.expression)->value.fval = (yyvsp[-2].expression)->value.ival * (yyvsp[0].expression)->value.fval;
+                  (yyval.expression)->type = 0;
+            } else {
+                  (yyval.expression)->value.fval = (yyvsp[-2].expression)->value.fval * (yyvsp[0].expression)->value.fval;
+                  (yyval.expression)->type = 0;
+            }
+            free((yyvsp[-2].expression));
+            free((yyvsp[0].expression));
       }
-#line 1295 "mini-c.tab.c"
+#line 1266 "mini-c.tab.c"
     break;
 
-  case 24: /* expr_float: expr_float MINUS expr_float  */
-#line 154 "mini-c.y"
-                                    {
-            (yyval.fval) = (yyvsp[-2].fval) - (yyvsp[0].fval);
+  case 17: /* expr: expr DIV expr  */
+#line 173 "mini-c.y"
+                      {
+            (yyval.expression) = malloc(sizeof(struct expr));
+            if( (yyvsp[-2].expression)->type == 1 && (yyvsp[0].expression)->type == 1) {
+                  (yyval.expression)->value.ival = (yyvsp[-2].expression)->value.ival / (yyvsp[0].expression)->value.ival;
+                  (yyval.expression)->type = 1;
+            } else if ((yyvsp[-2].expression)->type == 0 && (yyvsp[0].expression)->type == 1) {
+                  (yyval.expression)->value.fval = (yyvsp[-2].expression)->value.fval / (yyvsp[0].expression)->value.ival;
+                  (yyval.expression)->type = 0;
+            } else if ((yyvsp[-2].expression)->type == 1 && (yyvsp[0].expression)->type == 0) {
+                  (yyval.expression)->value.fval = (yyvsp[-2].expression)->value.ival / (yyvsp[0].expression)->value.fval;
+                  (yyval.expression)->type = 0;
+            } else {
+                  (yyval.expression)->value.fval = (yyvsp[-2].expression)->value.fval / (yyvsp[0].expression)->value.fval;
+                  (yyval.expression)->type = 0;
+            }
+            free((yyvsp[-2].expression));
+            free((yyvsp[0].expression));
       }
-#line 1303 "mini-c.tab.c"
+#line 1289 "mini-c.tab.c"
     break;
 
-  case 25: /* expr_float: expr_float MUL expr_float  */
-#line 157 "mini-c.y"
-                                  {
-            (yyval.fval) = (yyvsp[-2].fval) * (yyvsp[0].fval);
+  case 18: /* expr: LP expr RP  */
+#line 191 "mini-c.y"
+                   {
+            (yyval.expression) = (yyvsp[-1].expression);
       }
-#line 1311 "mini-c.tab.c"
+#line 1297 "mini-c.tab.c"
     break;
 
-  case 26: /* expr_float: expr_float DIV expr_float  */
-#line 160 "mini-c.y"
-                                  {
-            (yyval.fval) = (yyvsp[-2].fval) / (yyvsp[0].fval);
+  case 19: /* expr: MINUS expr  */
+#line 194 "mini-c.y"
+                              {
+            (yyval.expression) = malloc(sizeof(struct expr));
+            (yyval.expression)->type = (yyvsp[0].expression)->type;
+            if((yyvsp[0].expression)->type == 1) {
+                  (yyval.expression)->value.ival = -(yyvsp[0].expression)->value.ival;
+            } else {
+                  (yyval.expression)->value.fval = -(yyvsp[0].expression)->value.fval;
+            }
+            free((yyvsp[0].expression));
       }
-#line 1319 "mini-c.tab.c"
+#line 1312 "mini-c.tab.c"
     break;
 
-  case 27: /* expr_float: LP expr_float RP  */
-#line 163 "mini-c.y"
-                         {
-            (yyval.fval) = (yyvsp[-1].fval);
-      }
-#line 1327 "mini-c.tab.c"
-    break;
-
-  case 28: /* expr_float: MINUS expr_float  */
-#line 166 "mini-c.y"
-                                    {
-            (yyval.fval) = -(yyvsp[0].fval);
-      }
-#line 1335 "mini-c.tab.c"
-    break;
-
-  case 29: /* id: ID  */
-#line 171 "mini-c.y"
+  case 20: /* id: ID  */
+#line 206 "mini-c.y"
          {
             (yyval.lexeme) = strdup((yyvsp[0].lexeme));
       }
-#line 1343 "mini-c.tab.c"
+#line 1320 "mini-c.tab.c"
     break;
 
 
-#line 1347 "mini-c.tab.c"
+#line 1324 "mini-c.tab.c"
 
       default: break;
     }
@@ -1536,7 +1513,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 176 "mini-c.y"
+#line 211 "mini-c.y"
 
 
 	

@@ -76,13 +76,14 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 18 "mini-c.y"
+#line 19 "mini-c.y"
 
     int ival;
     float fval;
     char *lexeme;
+    struct expr *expression;
 
-#line 86 "mini-c.tab.h"
+#line 87 "mini-c.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

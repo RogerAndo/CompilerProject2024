@@ -48,11 +48,11 @@ void insertSymbol(const char *token, int type, int ival, float fval)
 
     if (type)
     {
-        printf("Symbol[token: %s, Type: INT, value: %d] inserted.\n", token, v.ival);
+        printf("Symbol[token: %s, Type: %d, value: %d] inserted.\n", token, type, v.ival);
     }
     else
     {
-        printf("Symbol[token: %s, Type: FLOAT, value: %.2f] inserted.\n", token, v.fval);
+        printf("Symbol[token: %s, Type: %d, value: %.2f] inserted.\n", token, type, v.fval);
     }
 }
 
@@ -127,6 +127,14 @@ Symbol *lookup_symbol(const char *token)
     {
         if (strcmp(current->token, token) == 0)
         {
+            if (current->type == 1)
+            {
+                printf("Symbol[token: %s, Type: %d, value: %d] lookup.\n", current->token, current->type, current->value.ival);
+            }
+            else
+            {
+                printf("Symbol[token: %s, Type: %d, value: %f] lookup.\n", current->token, current->type, current->value.fval);
+            }
             return current;
         }
         current = current->next;

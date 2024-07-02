@@ -1,8 +1,14 @@
-int x
-float y
-5 + 5
-2 + 2 * 9 - 1
-(5+5) * 2 +
-(-5)
-x = 5+5
+int x 
+int y
+float i
+float j
+x = 5
+y = 3
+x = 5 + 3
 x
+i = 2.5
+j = 3.14
+i
+j
+i = i + j
+i

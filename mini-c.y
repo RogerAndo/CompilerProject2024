@@ -30,6 +30,7 @@ int yylex(void);
 %token PLUS MINUS MUL DIV 
 %token LP RP ASSIGN
 %token EOL
+%token PRINT
 
 //Define precedence and associativity
 %left PLUS MINUS
@@ -58,6 +59,21 @@ declaration:
       }
       | FLOAT id {
             insertSymbol($2, 0, 0, 0.0);
+            free($2);
+      }
+      | INT id ASSIGN INUM {
+            insertSymbol($2, 1, $4, 0.0);
+            printf("Declare %s: %d\n", $2, $4);
+            free($2);
+      }
+      | FLOAT id ASSIGN FNUM {
+            insertSymbol($2, 0, 0, $4);
+            printf("Declare %s: %f\n", $2, $4);
+            free($2);
+      }
+      | FLOAT id ASSIGN INUM {
+            insertSymbol($2, 0, (float)$4, 0.0);
+            printf("Declare %s: %f\n", $2, (float)$4);
             free($2);
       }
       ;
@@ -89,15 +105,15 @@ statement:
             free($1);
             free($3);
       }
-      | expr {
-            if( $1->type == 1) {
-                  printf("Result: %d\n", $1->value.ival);
+      | PRINT expr {
+            if( $2->type == 1) {
+                  printf("Result: %d\n", $2->value.ival);
                   fflush(stdout);
             } else {
-                  printf("Result: %f\n", $1->value.fval);
+                  printf("Result: %f\n", $2->value.fval);
                   fflush(stdout);
             }
-            free($1);
+            free($2);
       }
       ;
 expr:

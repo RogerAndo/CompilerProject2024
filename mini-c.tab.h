@@ -52,7 +52,8 @@
      RP = 268,
      ASSIGN = 269,
      EOL = 270,
-     SIGN = 271
+     PRINT = 271,
+     SIGN = 272
    };
 #endif
 /* Tokens.  */
@@ -69,7 +70,8 @@
 #define RP 268
 #define ASSIGN 269
 #define EOL 270
-#define SIGN 271
+#define PRINT 271
+#define SIGN 272
 
 
 
@@ -84,7 +86,7 @@ typedef union YYSTYPE
     struct expr *expression;
 }
 /* Line 1529 of yacc.c.  */
-#line 88 "mini-c.tab.h"
+#line 90 "mini-c.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

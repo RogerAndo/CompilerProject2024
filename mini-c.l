@@ -12,6 +12,7 @@ letter [a-zA-Z]
 id {letter}+
 
 %%
+"print" {return PRINT;}
 "int" {return INT;}
 "float" {return FLOAT;}
 {digit}+ {yylval.ival = atoi(yytext); return INUM;}

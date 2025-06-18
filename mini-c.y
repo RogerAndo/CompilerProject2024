@@ -32,9 +32,9 @@ int yylex(void);
 %token UNARY_MINUS
 
 //Define precedence and associativity
-%right ASSIGN
 %left PLUS MINUS
 %left MUL DIV
+%right ASSIGN
 %nonassoc SIGN
 
 %type <expression> expr
@@ -44,12 +44,14 @@ int yylex(void);
 
 %%
 line:
-      declarations statements
-      ;
-declarations:
+      /* empty production */
+    | line item
+    ;
 
-      | declarations declaration
-      ;
+item:
+      declaration
+    | statement
+    ;
 declaration:
       INT id {
             insertSymbol($2, 1, 0, 0.0);
@@ -57,10 +59,6 @@ declaration:
       | FLOAT id {
             insertSymbol($2, 0, 0, 0.0);
       }
-      ;
-statements:
-
-      | statements statement
       ;
 statement:
       id ASSIGN expr {
@@ -77,6 +75,7 @@ statement:
                         if($3->type == 0) {
                               sym->value.fval = $3->value.fval;
                               printf("Assign %s: %f\n", $1, $3->value.fval);
+                              fflush(stdout);
                         } else {
                               sym->value.fval = (float)$3->value.ival;
                         }
@@ -91,8 +90,10 @@ statement:
       | expr {
             if( $1->type == 1) {
                   printf("Result: %d\n", $1->value.ival);
+                  fflush(stdout);
             } else {
                   printf("Result: %f\n", $1->value.fval);
+                  fflush(stdout);
             }
             free($1);
       }

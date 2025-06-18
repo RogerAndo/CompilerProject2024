@@ -10,8 +10,8 @@ digit  [0-9]
 
 letter [a-zA-Z]
 id {letter}+
-%%
 
+%%
 "int" {return INT;}
 "float" {return FLOAT;}
 {digit}+ {yylval.ival = atoi(yytext); return INUM;}

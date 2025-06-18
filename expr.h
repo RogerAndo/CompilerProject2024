@@ -5,8 +5,8 @@ struct expr
 {
     union
     {
-        int ival;
-        float fval;
+        int ival; // Integer value
+        float fval; // Floating-point value
     } value;
     int type; // 1 for int, 0 for float
 };

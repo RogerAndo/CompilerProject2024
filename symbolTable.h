@@ -11,10 +11,10 @@ typedef union Value
 
 typedef struct Symbol
 {
-    char token[100];
-    int type;
-    Value value;
-    struct Symbol *next;
+    char token[100]; // variable name or token
+    int type; // 1 for int, 0 for float
+    Value value; // value of the symbol
+    struct Symbol *next; // pointer to the next symbol in the linked list
 } Symbol;
 
 extern Symbol *symbol_table[TABLE_SIZE];

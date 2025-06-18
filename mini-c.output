@@ -1,438 +1,404 @@
-Terminale, die in Grammatik unbenutzt sind
+Terminals which are not used
 
-    UNARY_MINUS
-
-
-Zustand 16 Konflikte: 1 Schiebe/Reduziere
+   UNARY_MINUS
 
 
-Grammatik
+State 13 conflicts: 1 shift/reduce
+
+
+Grammar
 
     0 $accept: line $end
 
-    1 line: declarations statements
+    1 line: /* empty */
+    2     | line item
 
-    2 declarations: ε
-    3             | declarations declaration
+    3 item: declaration
+    4     | statement
 
-    4 declaration: INT id
-    5            | FLOAT id
+    5 declaration: INT id
+    6            | FLOAT id
 
-    6 statements: ε
-    7           | statements statement
+    7 statement: expr
 
-    8 statement: id ASSIGN expr
-    9          | expr
+    8 expr: INUM
+    9     | FNUM
+   10     | id
+   11     | id ASSIGN expr
+   12     | expr PLUS expr
+   13     | expr MINUS expr
+   14     | expr MUL expr
+   15     | expr DIV expr
+   16     | LP expr RP
+   17     | MINUS expr
 
-   10 expr: INUM
-   11     | FNUM
-   12     | id
-   13     | expr PLUS expr
-   14     | expr MINUS expr
-   15     | expr MUL expr
-   16     | expr DIV expr
-   17     | LP expr RP
-   18     | MINUS expr
+   18 id: ID
 
-   19 id: ID
 
+Terminals, with rules where they appear
 
-Terminale und die Regeln, in denen sie verwendet werden
+$end (0) 0
+error (256)
+INUM (258) 8
+FNUM (259) 9
+ID (260) 18
+INT (261) 5
+FLOAT (262) 6
+PLUS (263) 12
+MINUS (264) 13 17
+MUL (265) 14
+DIV (266) 15
+LP (267) 16
+RP (268) 16
+ASSIGN (269) 11
+UNARY_MINUS (270)
+SIGN (271)
 
-    $end (0) 0
-    error (256)
-    INUM <ival> (258) 10
-    FNUM <fval> (259) 11
-    ID <lexeme> (260) 19
-    INT (261) 4
-    FLOAT (262) 5
-    PLUS (263) 13
-    MINUS (264) 14 18
-    MUL (265) 15
-    DIV (266) 16
-    LP (267) 17
-    RP (268) 17
-    ASSIGN (269) 8
-    UNARY_MINUS (270)
-    SIGN (271)
 
+Nonterminals, with rules where they appear
 
-Nicht-Terminal und die Regeln, in denen sie verwendet werden
+$accept (17)
+    on left: 0
+line (18)
+    on left: 1 2, on right: 0 2
+item (19)
+    on left: 3 4, on right: 2
+declaration (20)
+    on left: 5 6, on right: 3
+statement (21)
+    on left: 7, on right: 4
+expr (22)
+    on left: 8 9 10 11 12 13 14 15 16 17, on right: 7 11 12 13 14 15
+    16 17
+id (23)
+    on left: 18, on right: 5 6 10 11
 
-    $accept (17)
-        auf der linken Seite: 0
-    line (18)
-        auf der linken Seite: 1
-        auf der rechten Seite: 0
-    declarations (19)
-        auf der linken Seite: 2 3
-        auf der rechten Seite: 1 3
-    declaration (20)
-        auf der linken Seite: 4 5
-        auf der rechten Seite: 3
-    statements (21)
-        auf der linken Seite: 6 7
-        auf der rechten Seite: 1 7
-    statement (22)
-        auf der linken Seite: 8 9
-        auf der rechten Seite: 7
-    expr <expression> (23)
-        auf der linken Seite: 10 11 12 13 14 15 16 17 18
-        auf der rechten Seite: 8 9 13 14 15 16 17 18
-    id <lexeme> (24)
-        auf der linken Seite: 19
-        auf der rechten Seite: 4 5 8 12
 
+state 0
 
-Zustand 0
+    0 $accept: . line $end
 
-    0 $accept: • line $end
+    $default  reduce using rule 1 (line)
 
-    $default  reduziere mit Regel 2 (declarations)
+    line  go to state 1
 
-    line          gehe zu Zustand 1 über
-    declarations  gehe zu Zustand 2 über
 
+state 1
 
-Zustand 1
+    0 $accept: line . $end
+    2 line: line . item
 
-    0 $accept: line • $end
+    $end   shift, and go to state 2
+    INUM   shift, and go to state 3
+    FNUM   shift, and go to state 4
+    ID     shift, and go to state 5
+    INT    shift, and go to state 6
+    FLOAT  shift, and go to state 7
+    MINUS  shift, and go to state 8
+    LP     shift, and go to state 9
 
-    $end  schiebe und gehe zu Zustand 3 über
+    item         go to state 10
+    declaration  go to state 11
+    statement    go to state 12
+    expr         go to state 13
+    id           go to state 14
 
 
-Zustand 2
+state 2
 
-    1 line: declarations • statements
-    3 declarations: declarations • declaration
+    0 $accept: line $end .
 
-    INT    schiebe und gehe zu Zustand 4 über
-    FLOAT  schiebe und gehe zu Zustand 5 über
+    $default  accept
 
-    $default  reduziere mit Regel 6 (statements)
 
-    declaration  gehe zu Zustand 6 über
-    statements   gehe zu Zustand 7 über
+state 3
 
+    8 expr: INUM .
 
-Zustand 3
+    $default  reduce using rule 8 (expr)
 
-    0 $accept: line $end •
 
-    $default  annehmen
+state 4
 
+    9 expr: FNUM .
 
-Zustand 4
+    $default  reduce using rule 9 (expr)
 
-    4 declaration: INT • id
 
-    ID  schiebe und gehe zu Zustand 8 über
+state 5
 
-    id  gehe zu Zustand 9 über
+   18 id: ID .
 
+    $default  reduce using rule 18 (id)
 
-Zustand 5
 
-    5 declaration: FLOAT • id
+state 6
 
-    ID  schiebe und gehe zu Zustand 8 über
+    5 declaration: INT . id
 
-    id  gehe zu Zustand 10 über
+    ID  shift, and go to state 5
 
+    id  go to state 15
 
-Zustand 6
 
-    3 declarations: declarations declaration •
+state 7
 
-    $default  reduziere mit Regel 3 (declarations)
+    6 declaration: FLOAT . id
 
+    ID  shift, and go to state 5
 
-Zustand 7
+    id  go to state 16
 
-    1 line: declarations statements •
-    7 statements: statements • statement
 
-    INUM   schiebe und gehe zu Zustand 11 über
-    FNUM   schiebe und gehe zu Zustand 12 über
-    ID     schiebe und gehe zu Zustand 8 über
-    MINUS  schiebe und gehe zu Zustand 13 über
-    LP     schiebe und gehe zu Zustand 14 über
+state 8
 
-    $default  reduziere mit Regel 1 (line)
+   17 expr: MINUS . expr
 
-    statement  gehe zu Zustand 15 über
-    expr       gehe zu Zustand 16 über
-    id         gehe zu Zustand 17 über
+    INUM   shift, and go to state 3
+    FNUM   shift, and go to state 4
+    ID     shift, and go to state 5
+    MINUS  shift, and go to state 8
+    LP     shift, and go to state 9
 
+    expr  go to state 17
+    id    go to state 14
 
-Zustand 8
 
-   19 id: ID •
+state 9
 
-    $default  reduziere mit Regel 19 (id)
+   16 expr: LP . expr RP
 
+    INUM   shift, and go to state 3
+    FNUM   shift, and go to state 4
+    ID     shift, and go to state 5
+    MINUS  shift, and go to state 8
+    LP     shift, and go to state 9
 
-Zustand 9
+    expr  go to state 18
+    id    go to state 14
 
-    4 declaration: INT id •
 
-    $default  reduziere mit Regel 4 (declaration)
+state 10
 
+    2 line: line item .
 
-Zustand 10
+    $default  reduce using rule 2 (line)
 
-    5 declaration: FLOAT id •
 
-    $default  reduziere mit Regel 5 (declaration)
+state 11
 
+    3 item: declaration .
 
-Zustand 11
+    $default  reduce using rule 3 (item)
 
-   10 expr: INUM •
 
-    $default  reduziere mit Regel 10 (expr)
+state 12
 
+    4 item: statement .
 
-Zustand 12
+    $default  reduce using rule 4 (item)
 
-   11 expr: FNUM •
 
-    $default  reduziere mit Regel 11 (expr)
+state 13
 
+    7 statement: expr .
+   12 expr: expr . PLUS expr
+   13     | expr . MINUS expr
+   14     | expr . MUL expr
+   15     | expr . DIV expr
 
-Zustand 13
+    PLUS   shift, and go to state 19
+    MINUS  shift, and go to state 20
+    MUL    shift, and go to state 21
+    DIV    shift, and go to state 22
 
-   18 expr: MINUS • expr
+    MINUS     [reduce using rule 7 (statement)]
+    $default  reduce using rule 7 (statement)
 
-    INUM   schiebe und gehe zu Zustand 11 über
-    FNUM   schiebe und gehe zu Zustand 12 über
-    ID     schiebe und gehe zu Zustand 8 über
-    MINUS  schiebe und gehe zu Zustand 13 über
-    LP     schiebe und gehe zu Zustand 14 über
 
-    expr  gehe zu Zustand 18 über
-    id    gehe zu Zustand 19 über
+state 14
 
+   10 expr: id .
+   11     | id . ASSIGN expr
 
-Zustand 14
+    ASSIGN  shift, and go to state 23
 
-   17 expr: LP • expr RP
+    $default  reduce using rule 10 (expr)
 
-    INUM   schiebe und gehe zu Zustand 11 über
-    FNUM   schiebe und gehe zu Zustand 12 über
-    ID     schiebe und gehe zu Zustand 8 über
-    MINUS  schiebe und gehe zu Zustand 13 über
-    LP     schiebe und gehe zu Zustand 14 über
 
-    expr  gehe zu Zustand 20 über
-    id    gehe zu Zustand 19 über
+state 15
 
+    5 declaration: INT id .
 
-Zustand 15
+    $default  reduce using rule 5 (declaration)
 
-    7 statements: statements statement •
 
-    $default  reduziere mit Regel 7 (statements)
+state 16
 
+    6 declaration: FLOAT id .
 
-Zustand 16
+    $default  reduce using rule 6 (declaration)
 
-    9 statement: expr •
-   13 expr: expr • PLUS expr
-   14     | expr • MINUS expr
-   15     | expr • MUL expr
-   16     | expr • DIV expr
 
-    PLUS   schiebe und gehe zu Zustand 21 über
-    MINUS  schiebe und gehe zu Zustand 22 über
-    MUL    schiebe und gehe zu Zustand 23 über
-    DIV    schiebe und gehe zu Zustand 24 über
+state 17
 
-    MINUS     [reduziere mit Regel 9 (statement)]
-    $default  reduziere mit Regel 9 (statement)
+   12 expr: expr . PLUS expr
+   13     | expr . MINUS expr
+   14     | expr . MUL expr
+   15     | expr . DIV expr
+   17     | MINUS expr .
 
+    $default  reduce using rule 17 (expr)
 
-Zustand 17
 
-    8 statement: id • ASSIGN expr
-   12 expr: id •
+state 18
 
-    ASSIGN  schiebe und gehe zu Zustand 25 über
+   12 expr: expr . PLUS expr
+   13     | expr . MINUS expr
+   14     | expr . MUL expr
+   15     | expr . DIV expr
+   16     | LP expr . RP
 
-    $default  reduziere mit Regel 12 (expr)
+    PLUS   shift, and go to state 19
+    MINUS  shift, and go to state 20
+    MUL    shift, and go to state 21
+    DIV    shift, and go to state 22
+    RP     shift, and go to state 24
 
 
-Zustand 18
+state 19
 
-   13 expr: expr • PLUS expr
-   14     | expr • MINUS expr
-   15     | expr • MUL expr
-   16     | expr • DIV expr
-   18     | MINUS expr •
+   12 expr: expr PLUS . expr
 
-    $default  reduziere mit Regel 18 (expr)
+    INUM   shift, and go to state 3
+    FNUM   shift, and go to state 4
+    ID     shift, and go to state 5
+    MINUS  shift, and go to state 8
+    LP     shift, and go to state 9
 
+    expr  go to state 25
+    id    go to state 14
 
-Zustand 19
 
-   12 expr: id •
+state 20
 
-    $default  reduziere mit Regel 12 (expr)
+   13 expr: expr MINUS . expr
 
+    INUM   shift, and go to state 3
+    FNUM   shift, and go to state 4
+    ID     shift, and go to state 5
+    MINUS  shift, and go to state 8
+    LP     shift, and go to state 9
 
-Zustand 20
+    expr  go to state 26
+    id    go to state 14
 
-   13 expr: expr • PLUS expr
-   14     | expr • MINUS expr
-   15     | expr • MUL expr
-   16     | expr • DIV expr
-   17     | LP expr • RP
 
-    PLUS   schiebe und gehe zu Zustand 21 über
-    MINUS  schiebe und gehe zu Zustand 22 über
-    MUL    schiebe und gehe zu Zustand 23 über
-    DIV    schiebe und gehe zu Zustand 24 über
-    RP     schiebe und gehe zu Zustand 26 über
+state 21
 
+   14 expr: expr MUL . expr
 
-Zustand 21
+    INUM   shift, and go to state 3
+    FNUM   shift, and go to state 4
+    ID     shift, and go to state 5
+    MINUS  shift, and go to state 8
+    LP     shift, and go to state 9
 
-   13 expr: expr PLUS • expr
+    expr  go to state 27
+    id    go to state 14
 
-    INUM   schiebe und gehe zu Zustand 11 über
-    FNUM   schiebe und gehe zu Zustand 12 über
-    ID     schiebe und gehe zu Zustand 8 über
-    MINUS  schiebe und gehe zu Zustand 13 über
-    LP     schiebe und gehe zu Zustand 14 über
 
-    expr  gehe zu Zustand 27 über
-    id    gehe zu Zustand 19 über
+state 22
 
+   15 expr: expr DIV . expr
 
-Zustand 22
+    INUM   shift, and go to state 3
+    FNUM   shift, and go to state 4
+    ID     shift, and go to state 5
+    MINUS  shift, and go to state 8
+    LP     shift, and go to state 9
 
-   14 expr: expr MINUS • expr
+    expr  go to state 28
+    id    go to state 14
 
-    INUM   schiebe und gehe zu Zustand 11 über
-    FNUM   schiebe und gehe zu Zustand 12 über
-    ID     schiebe und gehe zu Zustand 8 über
-    MINUS  schiebe und gehe zu Zustand 13 über
-    LP     schiebe und gehe zu Zustand 14 über
 
-    expr  gehe zu Zustand 28 über
-    id    gehe zu Zustand 19 über
+state 23
 
+   11 expr: id ASSIGN . expr
 
-Zustand 23
+    INUM   shift, and go to state 3
+    FNUM   shift, and go to state 4
+    ID     shift, and go to state 5
+    MINUS  shift, and go to state 8
+    LP     shift, and go to state 9
 
-   15 expr: expr MUL • expr
+    expr  go to state 29
+    id    go to state 14
 
-    INUM   schiebe und gehe zu Zustand 11 über
-    FNUM   schiebe und gehe zu Zustand 12 über
-    ID     schiebe und gehe zu Zustand 8 über
-    MINUS  schiebe und gehe zu Zustand 13 über
-    LP     schiebe und gehe zu Zustand 14 über
 
-    expr  gehe zu Zustand 29 über
-    id    gehe zu Zustand 19 über
+state 24
 
+   16 expr: LP expr RP .
 
-Zustand 24
+    $default  reduce using rule 16 (expr)
 
-   16 expr: expr DIV • expr
 
-    INUM   schiebe und gehe zu Zustand 11 über
-    FNUM   schiebe und gehe zu Zustand 12 über
-    ID     schiebe und gehe zu Zustand 8 über
-    MINUS  schiebe und gehe zu Zustand 13 über
-    LP     schiebe und gehe zu Zustand 14 über
+state 25
 
-    expr  gehe zu Zustand 30 über
-    id    gehe zu Zustand 19 über
+   12 expr: expr . PLUS expr
+   12     | expr PLUS expr .
+   13     | expr . MINUS expr
+   14     | expr . MUL expr
+   15     | expr . DIV expr
 
+    MUL  shift, and go to state 21
+    DIV  shift, and go to state 22
 
-Zustand 25
+    $default  reduce using rule 12 (expr)
 
-    8 statement: id ASSIGN • expr
 
-    INUM   schiebe und gehe zu Zustand 11 über
-    FNUM   schiebe und gehe zu Zustand 12 über
-    ID     schiebe und gehe zu Zustand 8 über
-    MINUS  schiebe und gehe zu Zustand 13 über
-    LP     schiebe und gehe zu Zustand 14 über
+state 26
 
-    expr  gehe zu Zustand 31 über
-    id    gehe zu Zustand 19 über
+   12 expr: expr . PLUS expr
+   13     | expr . MINUS expr
+   13     | expr MINUS expr .
+   14     | expr . MUL expr
+   15     | expr . DIV expr
 
+    MUL  shift, and go to state 21
+    DIV  shift, and go to state 22
 
-Zustand 26
+    $default  reduce using rule 13 (expr)
 
-   17 expr: LP expr RP •
 
-    $default  reduziere mit Regel 17 (expr)
+state 27
 
+   12 expr: expr . PLUS expr
+   13     | expr . MINUS expr
+   14     | expr . MUL expr
+   14     | expr MUL expr .
+   15     | expr . DIV expr
 
-Zustand 27
+    $default  reduce using rule 14 (expr)
 
-   13 expr: expr • PLUS expr
-   13     | expr PLUS expr •
-   14     | expr • MINUS expr
-   15     | expr • MUL expr
-   16     | expr • DIV expr
 
-    MUL  schiebe und gehe zu Zustand 23 über
-    DIV  schiebe und gehe zu Zustand 24 über
+state 28
 
-    $default  reduziere mit Regel 13 (expr)
+   12 expr: expr . PLUS expr
+   13     | expr . MINUS expr
+   14     | expr . MUL expr
+   15     | expr . DIV expr
+   15     | expr DIV expr .
 
+    $default  reduce using rule 15 (expr)
 
-Zustand 28
 
-   13 expr: expr • PLUS expr
-   14     | expr • MINUS expr
-   14     | expr MINUS expr •
-   15     | expr • MUL expr
-   16     | expr • DIV expr
+state 29
 
-    MUL  schiebe und gehe zu Zustand 23 über
-    DIV  schiebe und gehe zu Zustand 24 über
+   11 expr: id ASSIGN expr .
+   12     | expr . PLUS expr
+   13     | expr . MINUS expr
+   14     | expr . MUL expr
+   15     | expr . DIV expr
 
-    $default  reduziere mit Regel 14 (expr)
-
-
-Zustand 29
-
-   13 expr: expr • PLUS expr
-   14     | expr • MINUS expr
-   15     | expr • MUL expr
-   15     | expr MUL expr •
-   16     | expr • DIV expr
-
-    $default  reduziere mit Regel 15 (expr)
-
-
-Zustand 30
-
-   13 expr: expr • PLUS expr
-   14     | expr • MINUS expr
-   15     | expr • MUL expr
-   16     | expr • DIV expr
-   16     | expr DIV expr •
-
-    $default  reduziere mit Regel 16 (expr)
-
-
-Zustand 31
-
-    8 statement: id ASSIGN expr •
-   13 expr: expr • PLUS expr
-   14     | expr • MINUS expr
-   15     | expr • MUL expr
-   16     | expr • DIV expr
-
-    PLUS   schiebe und gehe zu Zustand 21 über
-    MINUS  schiebe und gehe zu Zustand 22 über
-    MUL    schiebe und gehe zu Zustand 23 über
-    DIV    schiebe und gehe zu Zustand 24 über
-
-    $default  reduziere mit Regel 8 (statement)
+    $default  reduce using rule 11 (expr)

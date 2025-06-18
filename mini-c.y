@@ -233,6 +233,7 @@ expr:
 id:
       ID {
             $$ = strdup($1);
+            free($1);
       }
       ;
 

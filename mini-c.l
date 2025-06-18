@@ -25,7 +25,8 @@ id {letter}+
 "/" {return DIV;}
 "(" {return LP;}
 ")" {return RP;}
-[ \t\n\r]+  /* skip whitespace */
+"\n" {return EOL;}
+[ \t\r]+  /* skip whitespace */
 .  { fprintf(stderr, "Unexpected character: %s\n", yytext); }
 
 %%

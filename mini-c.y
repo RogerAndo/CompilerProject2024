@@ -30,6 +30,7 @@ int yylex(void);
 %token PLUS MINUS MUL DIV 
 %token LP RP ASSIGN
 %token UNARY_MINUS
+%token EOL
 
 //Define precedence and associativity
 %left PLUS MINUS
@@ -49,15 +50,17 @@ line:
     ;
 
 item:
-      declaration
-    | statement
+      declaration EOL
+    | statement EOL
     ;
 declaration:
       INT id {
             insertSymbol($2, 1, 0, 0.0);
+            free($2);
       }
       | FLOAT id {
             insertSymbol($2, 0, 0, 0.0);
+            free($2);
       }
       ;
 statement:
@@ -85,6 +88,7 @@ statement:
             } else {
                   yyerror("Undefined variable");
             }
+            free($1);
             free($3);
       }
       | expr {

@@ -3,9 +3,6 @@ Terminals which are not used
    UNARY_MINUS
 
 
-State 13 conflicts: 1 shift/reduce
-
-
 Grammar
 
     0 $accept: line $end
@@ -13,18 +10,18 @@ Grammar
     1 line: /* empty */
     2     | line item
 
-    3 item: declaration
-    4     | statement
+    3 item: declaration EOL
+    4     | statement EOL
 
     5 declaration: INT id
     6            | FLOAT id
 
-    7 statement: expr
+    7 statement: id ASSIGN expr
+    8          | expr
 
-    8 expr: INUM
-    9     | FNUM
-   10     | id
-   11     | id ASSIGN expr
+    9 expr: INUM
+   10     | FNUM
+   11     | id
    12     | expr PLUS expr
    13     | expr MINUS expr
    14     | expr MUL expr
@@ -39,8 +36,8 @@ Terminals, with rules where they appear
 
 $end (0) 0
 error (256)
-INUM (258) 8
-FNUM (259) 9
+INUM (258) 9
+FNUM (259) 10
 ID (260) 18
 INT (261) 5
 FLOAT (262) 6
@@ -50,28 +47,29 @@ MUL (265) 14
 DIV (266) 15
 LP (267) 16
 RP (268) 16
-ASSIGN (269) 11
+ASSIGN (269) 7
 UNARY_MINUS (270)
-SIGN (271)
+EOL (271) 3 4
+SIGN (272)
 
 
 Nonterminals, with rules where they appear
 
-$accept (17)
+$accept (18)
     on left: 0
-line (18)
+line (19)
     on left: 1 2, on right: 0 2
-item (19)
+item (20)
     on left: 3 4, on right: 2
-declaration (20)
+declaration (21)
     on left: 5 6, on right: 3
-statement (21)
-    on left: 7, on right: 4
-expr (22)
-    on left: 8 9 10 11 12 13 14 15 16 17, on right: 7 11 12 13 14 15
-    16 17
-id (23)
-    on left: 18, on right: 5 6 10 11
+statement (22)
+    on left: 7 8, on right: 4
+expr (23)
+    on left: 9 10 11 12 13 14 15 16 17, on right: 7 8 12 13 14 15 16
+    17
+id (24)
+    on left: 18, on right: 5 6 7 11
 
 
 state 0
@@ -113,16 +111,16 @@ state 2
 
 state 3
 
-    8 expr: INUM .
+    9 expr: INUM .
 
-    $default  reduce using rule 8 (expr)
+    $default  reduce using rule 9 (expr)
 
 
 state 4
 
-    9 expr: FNUM .
+   10 expr: FNUM .
 
-    $default  reduce using rule 9 (expr)
+    $default  reduce using rule 10 (expr)
 
 
 state 5
@@ -161,7 +159,7 @@ state 8
     LP     shift, and go to state 9
 
     expr  go to state 17
-    id    go to state 14
+    id    go to state 18
 
 
 state 9
@@ -174,8 +172,8 @@ state 9
     MINUS  shift, and go to state 8
     LP     shift, and go to state 9
 
-    expr  go to state 18
-    id    go to state 14
+    expr  go to state 19
+    id    go to state 18
 
 
 state 10
@@ -187,43 +185,42 @@ state 10
 
 state 11
 
-    3 item: declaration .
+    3 item: declaration . EOL
 
-    $default  reduce using rule 3 (item)
+    EOL  shift, and go to state 20
 
 
 state 12
 
-    4 item: statement .
+    4 item: statement . EOL
 
-    $default  reduce using rule 4 (item)
+    EOL  shift, and go to state 21
 
 
 state 13
 
-    7 statement: expr .
+    8 statement: expr .
    12 expr: expr . PLUS expr
    13     | expr . MINUS expr
    14     | expr . MUL expr
    15     | expr . DIV expr
 
-    PLUS   shift, and go to state 19
-    MINUS  shift, and go to state 20
-    MUL    shift, and go to state 21
-    DIV    shift, and go to state 22
+    PLUS   shift, and go to state 22
+    MINUS  shift, and go to state 23
+    MUL    shift, and go to state 24
+    DIV    shift, and go to state 25
 
-    MINUS     [reduce using rule 7 (statement)]
-    $default  reduce using rule 7 (statement)
+    $default  reduce using rule 8 (statement)
 
 
 state 14
 
-   10 expr: id .
-   11     | id . ASSIGN expr
+    7 statement: id . ASSIGN expr
+   11 expr: id .
 
-    ASSIGN  shift, and go to state 23
+    ASSIGN  shift, and go to state 26
 
-    $default  reduce using rule 10 (expr)
+    $default  reduce using rule 11 (expr)
 
 
 state 15
@@ -253,20 +250,41 @@ state 17
 
 state 18
 
+   11 expr: id .
+
+    $default  reduce using rule 11 (expr)
+
+
+state 19
+
    12 expr: expr . PLUS expr
    13     | expr . MINUS expr
    14     | expr . MUL expr
    15     | expr . DIV expr
    16     | LP expr . RP
 
-    PLUS   shift, and go to state 19
-    MINUS  shift, and go to state 20
-    MUL    shift, and go to state 21
-    DIV    shift, and go to state 22
-    RP     shift, and go to state 24
+    PLUS   shift, and go to state 22
+    MINUS  shift, and go to state 23
+    MUL    shift, and go to state 24
+    DIV    shift, and go to state 25
+    RP     shift, and go to state 27
 
 
-state 19
+state 20
+
+    3 item: declaration EOL .
+
+    $default  reduce using rule 3 (item)
+
+
+state 21
+
+    4 item: statement EOL .
+
+    $default  reduce using rule 4 (item)
+
+
+state 22
 
    12 expr: expr PLUS . expr
 
@@ -276,11 +294,11 @@ state 19
     MINUS  shift, and go to state 8
     LP     shift, and go to state 9
 
-    expr  go to state 25
-    id    go to state 14
+    expr  go to state 28
+    id    go to state 18
 
 
-state 20
+state 23
 
    13 expr: expr MINUS . expr
 
@@ -290,11 +308,11 @@ state 20
     MINUS  shift, and go to state 8
     LP     shift, and go to state 9
 
-    expr  go to state 26
-    id    go to state 14
+    expr  go to state 29
+    id    go to state 18
 
 
-state 21
+state 24
 
    14 expr: expr MUL . expr
 
@@ -304,11 +322,11 @@ state 21
     MINUS  shift, and go to state 8
     LP     shift, and go to state 9
 
-    expr  go to state 27
-    id    go to state 14
+    expr  go to state 30
+    id    go to state 18
 
 
-state 22
+state 25
 
    15 expr: expr DIV . expr
 
@@ -318,13 +336,13 @@ state 22
     MINUS  shift, and go to state 8
     LP     shift, and go to state 9
 
-    expr  go to state 28
-    id    go to state 14
+    expr  go to state 31
+    id    go to state 18
 
 
-state 23
+state 26
 
-   11 expr: id ASSIGN . expr
+    7 statement: id ASSIGN . expr
 
     INUM   shift, and go to state 3
     FNUM   shift, and go to state 4
@@ -332,18 +350,18 @@ state 23
     MINUS  shift, and go to state 8
     LP     shift, and go to state 9
 
-    expr  go to state 29
-    id    go to state 14
+    expr  go to state 32
+    id    go to state 18
 
 
-state 24
+state 27
 
    16 expr: LP expr RP .
 
     $default  reduce using rule 16 (expr)
 
 
-state 25
+state 28
 
    12 expr: expr . PLUS expr
    12     | expr PLUS expr .
@@ -351,13 +369,13 @@ state 25
    14     | expr . MUL expr
    15     | expr . DIV expr
 
-    MUL  shift, and go to state 21
-    DIV  shift, and go to state 22
+    MUL  shift, and go to state 24
+    DIV  shift, and go to state 25
 
     $default  reduce using rule 12 (expr)
 
 
-state 26
+state 29
 
    12 expr: expr . PLUS expr
    13     | expr . MINUS expr
@@ -365,13 +383,13 @@ state 26
    14     | expr . MUL expr
    15     | expr . DIV expr
 
-    MUL  shift, and go to state 21
-    DIV  shift, and go to state 22
+    MUL  shift, and go to state 24
+    DIV  shift, and go to state 25
 
     $default  reduce using rule 13 (expr)
 
 
-state 27
+state 30
 
    12 expr: expr . PLUS expr
    13     | expr . MINUS expr
@@ -382,7 +400,7 @@ state 27
     $default  reduce using rule 14 (expr)
 
 
-state 28
+state 31
 
    12 expr: expr . PLUS expr
    13     | expr . MINUS expr
@@ -393,12 +411,17 @@ state 28
     $default  reduce using rule 15 (expr)
 
 
-state 29
+state 32
 
-   11 expr: id ASSIGN expr .
-   12     | expr . PLUS expr
+    7 statement: id ASSIGN expr .
+   12 expr: expr . PLUS expr
    13     | expr . MINUS expr
    14     | expr . MUL expr
    15     | expr . DIV expr
 
-    $default  reduce using rule 11 (expr)
+    PLUS   shift, and go to state 22
+    MINUS  shift, and go to state 23
+    MUL    shift, and go to state 24
+    DIV    shift, and go to state 25
+
+    $default  reduce using rule 7 (statement)

@@ -51,9 +51,8 @@
      LP = 267,
      RP = 268,
      ASSIGN = 269,
-     UNARY_MINUS = 270,
-     EOL = 271,
-     SIGN = 272
+     EOL = 270,
+     SIGN = 271
    };
 #endif
 /* Tokens.  */
@@ -69,9 +68,8 @@
 #define LP 267
 #define RP 268
 #define ASSIGN 269
-#define UNARY_MINUS 270
-#define EOL 271
-#define SIGN 272
+#define EOL 270
+#define SIGN 271
 
 
 
@@ -86,7 +84,7 @@ typedef union YYSTYPE
     struct expr *expression;
 }
 /* Line 1529 of yacc.c.  */
-#line 90 "mini-c.tab.h"
+#line 88 "mini-c.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

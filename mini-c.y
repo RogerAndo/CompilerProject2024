@@ -29,7 +29,6 @@ int yylex(void);
 %token INT FLOAT
 %token PLUS MINUS MUL DIV 
 %token LP RP ASSIGN
-%token UNARY_MINUS
 %token EOL
 
 //Define precedence and associativity
@@ -48,7 +47,6 @@ line:
       /* empty production */
     | line item
     ;
-
 item:
       declaration EOL
     | statement EOL

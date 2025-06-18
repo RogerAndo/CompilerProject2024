@@ -1616,12 +1616,13 @@ yyreduce:
 #line 234 "mini-c.y"
     {
             (yyval.lexeme) = strdup((yyvsp[(1) - (1)].lexeme));
+            free((yyvsp[(1) - (1)].lexeme));
       ;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1625 "mini-c.tab.c"
+#line 1626 "mini-c.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1835,7 +1836,7 @@ yyreturn:
 }
 
 
-#line 239 "mini-c.y"
+#line 240 "mini-c.y"
 
 
 	
